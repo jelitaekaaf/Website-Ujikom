@@ -2,119 +2,102 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\catatan_keuangan;
+use App\Models\CatatanKeuangan;
 use Illuminate\Http\Request;
 
 class CatatanKeuanganController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $catatan_keuangan =catatan_keuangan::all();
-        $title = 'Delete User!';
-        $text = "Are you sure you want to delete?";
-        return view('admin.catatan_keuangan.index', compact('catatan_keuangan'));
+        $catatanKeuangan = CatatanKeuangan::all();  // Mengambil semua data catatan keuangan
+        return view('admin.catatanKeuangan.index', compact('catatanKeuangan'));
     }
 
     /**
      * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function create()
     {
-        return view('admin.catatan_keuangan.create');
+        return view('admin.catatanKeuangan.create');
     }
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
+        $request->validate([
             'jenis' => 'required',
             'jumlah' => 'required',
+            'keterangan' => 'nullable',
             'tanggal' => 'required',
-            'keterangan' => 'required',
-
         ]);
-        $catatan_keuangan = new catatan_keuangan();
-        $catatan_keuangan->jenis = $request->jenis;
-        $catatan_keuangan->jumlah = $request->jumlah;
-        $catatan_keuangan->tanggal = $request->tanggal;
-        $catatan_keuangan->keterangan = $request->keterangan;
-        $catatan_keuangan->save();
-        // Alert::success('Success','Data Berhasil di tambahkan')->autoClose(2000);
-        return redirect()->route('catatan_keuangan.index');
+
+        // Simpan data catatan keuangan baru
+        $catatanKeuangan = new CatatanKeuangan();
+        $catatanKeuangan->jenis = $request->jenis;
+        $catatanKeuangan->jumlah = $request->jumlah;
+        $catatanKeuangan->keterangan = $request->keterangan;
+        $catatanKeuangan->tanggal = $request->tanggal;
+        $catatanKeuangan->save();
+
+        // Redirect ke halaman index setelah menyimpan
+        return redirect()->route('catatankeuangan.index');
     }
 
     /**
      * Display the specified resource.
-     *
-     * @param  \App\Models\catatan_keuangan  $catatan_keuangan
-     * @return \Illuminate\Http\Response
      */
-    public function show(catatan_keuangan $catatan_keuangan)
+    public function show($id)
     {
         //
     }
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\catatan_keuangan  $catatan_keuangan
-     * @return \Illuminate\Http\Response
      */
-    public function edit(catatan_keuangan $id)
+    public function edit($id)
     {
-        $catatan_keuangan = catatan_keuangan::findOrFail($id);
-        return view('admin.catatan_keuangan.edit', compact('catatan_keuangan'));
+        $catatanKeuangan = CatatanKeuangan::findOrFail($id);
+        return view('admin.catatanKeuangan.edit', compact('catatanKeuangan'));
     }
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\catatan_keuangan  $catatan_keuangan
-     * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,  $id)
+    public function update(Request $request, $id)
     {
-        $this->validate($request, [
+        $request->validate([
             'jenis' => 'required',
             'jumlah' => 'required',
+            'keterangan' => 'nullable',
             'tanggal' => 'required',
-            'keterangan' => 'required',
-
         ]);
-        $catatan_keuangan = catatan_keuangan::findOrFail($id);
-        $catatan_keuangan->jenis = $request->jenis;
-        $catatan_keuangan->jumlah = $request->jumlah;
-        $catatan_keuangan->tanggal = $request->tanggal;
-        $catatan_keuangan->keterangan = $request->keterangan;
-        $catatan_keuangan->save();
-         // Alert::success('Success', 'Edit Data Berhasil di Simpan')->autoclose(2000);
-         return redirect()->route('catatan_keuangan.index');
+
+        // Update data catatan keuangan
+        $catatanKeuangan = CatatanKeuangan::findOrFail($id);
+        $catatanKeuangan->jenis = $request->jenis;
+        $catatanKeuangan->jumlah = $request->jumlah;
+        $catatanKeuangan->keterangan = $request->keterangan;
+        $catatanKeuangan->tanggal = $request->tanggal;
+        $catatanKeuangan->save();
+
+        // Redirect ke halaman index setelah update
+        return redirect()->route('catatankeuangan.index');
     }
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\catatan_keuangan  $catatan_keuangan
-     * @return \Illuminate\Http\Response
      */
-    public function destroy(catatan_keuangan $id)
+    public function destroy($id)
     {
-        $catatan_keuangan = catatan_keuangan::findOrFail($id);
-        $catatan_keuangan->delete();
-        // Alert::success('Success', 'Data Ini Telah Di Hapus')->autoclose(2000);
-        return redirect()->route('catatan_keuangan.index');
+        $catatanKeuangan = CatatanKeuangan::findOrFail($id);
+        $catatanKeuangan->delete();
+
+        // Redirect ke halaman index setelah menghapus
+        return redirect()->route('catatankeuangan.index');
     }
 }

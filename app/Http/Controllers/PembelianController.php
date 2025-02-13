@@ -9,21 +9,15 @@ class PembelianController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $pembelian = pembelian::all();
-        $title = 'Delete User!';
-        $text = "Are you sure you want to delete?";
+        $pembelian = Pembelian::all();  // Mengambil semua data kategori
         return view('admin.pembelian.index', compact('pembelian'));
     }
 
     /**
      * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function create()
     {
@@ -32,97 +26,81 @@ class PembelianController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
+        $request->validate([
             'nama_perusahaan' => 'required',
-            'nama_barang' => 'required',
+            'nama' => 'required',
             'jumlah' => 'required',
             'tanggal' => 'required',
             'alamat' => 'required',
-            'keterangan' => 'required',
         ]);
 
-        $pembelian = new pembelian();
+
+        $pembelian = new Pembelian();
         $pembelian->nama_perusahaan = $request->nama_perusahaan;
-        $pembelian->nama_barang = $request->nama_barang;
+        $pembelian->nama= $request->nama;
         $pembelian->jumlah = $request->jumlah;
         $pembelian->tanggal = $request->tanggal;
-        $pembelian->alamat = $request->alamat;
-        $pembelian->keterangan = $request->keterangan;
+        $pembelian->alamat= $request->alamat;
         $pembelian->save();
-        // Alert::success('Success','Data Berhasil di tambahkan')->autoClose(2000);
+
+        // Alert::success('Success', 'Data Behasil Ditambahkan')->autoClose(1000);
         return redirect()->route('pembelian.index');
     }
 
     /**
      * Display the specified resource.
-     *
-     * @param  \App\Models\pembelian  $pembelian
-     * @return \Illuminate\Http\Response
      */
-    public function show(pembelian $pembelian)
+    public function show($id)
     {
         //
     }
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\pembelian  $pembelian
-     * @return \Illuminate\Http\Response
      */
-    public function edit(pembelian $id)
+    public function edit($id)
     {
-        $pembelian = pembelian::findOrFail($id);
+        $pembelian = Pembelian::findOrFail($id);
         return view('admin.pembelian.edit', compact('pembelian'));
     }
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\pembelian  $pembelian
-     * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,  $id)
+    public function update(Request $request, $id)
     {
-        $this->validate($request, [
+        $request->validate([
             'nama_perusahaan' => 'required',
-            'nama_barang' => 'required',
+            'nama' => 'required',
             'jumlah' => 'required',
             'tanggal' => 'required',
             'alamat' => 'required',
-            'keterangan' => 'required',
         ]);
 
-        $pembelian = pembelian::findOrFail($id);
+        $pembelian = Pembelian::findOrFail($id);
         $pembelian->nama_perusahaan = $request->nama_perusahaan;
-        $pembelian->nama_barang = $request->nama_barang;
+        $pembelian->nama= $request->nama;
         $pembelian->jumlah = $request->jumlah;
         $pembelian->tanggal = $request->tanggal;
-        $pembelian->alamat = $request->alamat;
-        $pembelian->keterangan = $request->keterangan;
+        $pembelian->alamat= $request->alamat;
         $pembelian->save();
-         // Alert::success('Success', 'Edit Data Berhasil di Simpan')->autoclose(2000);
-         return redirect()->route('pembelian.index');
+
+        // Alert::success('Success', 'Data Behasil Diubah')->autoClose(1000);
+        return redirect()->route('pembelian.index');
     }
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\pembelian  $pembelian
-     * @return \Illuminate\Http\Response
      */
-    public function destroy(pembelian $id)
+    public function destroy($id)
     {
-        $pembelian = pembelian::findOrFail($id);
+        $pembelian = Pembelian::findOrFail($id);
         $pembelian->delete();
-        // Alert::success('Success', 'Data Ini Telah Di Hapus')->autoclose(2000);
+
+        // Alert::success('Success', 'Data Behasil DiHapus')->autoClose(1000);
         return redirect()->route('pembelian.index');
     }
 }

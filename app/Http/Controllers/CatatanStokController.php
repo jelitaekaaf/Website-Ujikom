@@ -2,119 +2,112 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\catatan_stok;
+use App\Models\CatatanStok;
+use App\Models\Barang;
 use Illuminate\Http\Request;
 
 class CatatanStokController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $catatan_stok =catatan_stok::all();
-        $title = 'Delete User!';
-        $text = "Are you sure you want to delete?";
-        return view('admin.catatan_stok.index', compact('catatan_stok'));
+        $catatanStok = CatatanStok::all();  // Mengambil semua data kategori
+        return view('admin.catatanStok.index', compact('catatanStok'));
     }
 
     /**
      * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function create()
     {
-        return view('admin.catatan_stok.create');
+        $catatanStok= CatatanStok::all();
+        $barang = Barang::all();
+
+        return view('admin.catatanStok.create', compact('catatanStok','barang'));
     }
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
+        $request->validate([
             'id_barang' => 'required',
-            'jenis' => 'required',
+            'jenis'=> 'required',
             'jumlah' => 'required',
             'tanggal' => 'required',
-
+            'keterangan' => 'required',
         ]);
-        $catatan_stok = new catatan_stok();
-        $catatan_stok->id_barang = $request->id_barang;
-        $catatan_stok->jenis = $request->jenis;
-        $catatan_stok->jumlah = $request->jumlah;
-        $catatan_stok->tanggal = $request->tanggal;
-        $catatan_stok->save();
-        // Alert::success('Success','Data Berhasil di tambahkan')->autoClose(2000);
-        return redirect()->route('catatan_stok.index');
+
+
+        $catatanStok = new CatatanStok();
+        $catatanStok->id_barang = $request->id_barang;
+        $catatanStok->jenis = $request->jenis;
+        $catatanStok->jumlah = $request->jumlah;
+        $catatanStok->tanggal = $request->tanggal;
+        $catatanStok->keterangan = $request->keterangan;
+        $catatanStok->save();
+
+        // Alert::success('Success', 'Data Behasil Ditambahkan')->autoClose(1000);
+        return redirect()->route('catatanstok.index');
     }
 
     /**
      * Display the specified resource.
-     *
-     * @param  \App\Models\catatan_stok  $catatan_stok
-     * @return \Illuminate\Http\Response
      */
-    public function show(catatan_stok $catatan_stok)
+    public function show($id)
     {
         //
     }
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\catatan_stok  $catatan_stok
-     * @return \Illuminate\Http\Response
      */
-    public function edit( $id)
+    public function edit($id)
     {
-        $catatan_stok = catatan_stok::findOrFail($id);
-        return view('admin.catatan_stok.edit', compact('catatan_stok'));
+        $catatanStok = CatatanStok::findOrFail($id);
+        $barang= Barang::all();
+
+        return view('admin.catatanStok.edit', compact('catatanStok','barang'));
     }
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\catatan_stok  $catatan_stok
-     * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,  $id)
+    public function update(Request $request, $id)
     {
-        $this->validate($request, [
+        $request->validate([
             'id_barang' => 'required',
-            'jenis' => 'required',
+            'jenis'=> 'required',
             'jumlah' => 'required',
             'tanggal' => 'required',
-
+            'keterangan' => 'required',
         ]);
-        $catatan_stok = catatan_stok::findOrFail($id);
-        $catatan_stok->id_barang = $request->id_barang;
-        $catatan_stok->jenis = $request->jenis;
-        $catatan_stok->jumlah = $request->jumlah;
-        $catatan_stok->tanggal = $request->tanggal;
-        $catatan_stok->save();
-         // Alert::success('Success', 'Edit Data Berhasil di Simpan')->autoclose(2000);
-         return redirect()->route('catatan_stok.index');
+
+
+        $catatanStok = CatatanStok::findOrFail($id);
+        $catatanStok->id_barang = $request->id_barang;
+        $catatanStok->jenis = $request->jenis;
+        $catatanStok->jumlah = $request->jumlah;
+        $catatanStok->tanggal = $request->tanggal;
+        $catatanStok->keterangan = $request->keterangan;
+        $catatanStok->save();
+
+        // Alert::success('Success', 'Data Behasil Ditambahkan')->autoClose(1000);
+        return redirect()->route('catatanstok.index');
     }
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\catatan_stok  $catatan_stok
-     * @return \Illuminate\Http\Response
      */
-    public function destroy(catatan_stok $id)
+    public function destroy($id)
     {
-        $catatan_stok = catatan_stok::findOrFail($id);
-        $catatan_stok->delete();
-        // Alert::success('Success', 'Data Ini Telah Di Hapus')->autoclose(2000);
-        return redirect()->route('catatan_stok.index');
+        $catatanStok= CatatanStok::findOrFail($id);
+        $catatanStok->delete();
+
+        // Alert::success('Success', 'Data Behasil DiHapus')->autoClose(1000);
+        return redirect()->route('catatanstok.index');
     }
 }

@@ -5,11 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class pembelian extends Model
+class Pembelian extends Model
 {
     use HasFactory;
-    protected $fillable = ['id','nama_perusahaan','nama_barang','jumlah','tanggal','alamat','keterangan'];
 
-    public $timestamps = true;
+    protected $fillable = ['id','nama_perusahaan', 'nama', 'jumlah','tanggal','alamat',];
+    public $timestamp = true;
 
 }
+
+

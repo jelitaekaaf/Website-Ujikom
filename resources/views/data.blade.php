@@ -37,68 +37,7 @@
             <div class="content-page">
                 <div class="content">
 
-                    <!-- Start Content-->
-                    <div class="container-fluid">
 
-                        <div class="py-3 d-flex align-items-sm-center flex-sm-row flex-column">
-                            <div class="flex-grow-1">
-                                <h4 class="fs-18 fw-semibold m-0">Data Kategori</h4>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="card overflow-hidden mb-0">
-                                <div class="card-header">
-                                    <div class="d-flex align-items-center">
-                                        <h5 class="card-title text-black mb-0">Kategori</h5>
-                                    </div>
-                                </div>
-                                <div class="card-body p-0">
-                                    <a href="{{route('kategori.create')}}" class="btn btn-primary">Add Data</a>
-                                    <div class="table-responsive">
-                                        <table class="table table-traffic mb-0">
-                                            <thead>
-                                                <tr>
-                                                    <th>Id</th>
-                                                    <th> Nama</th>
-                                                    <th> Status</th>
-                                                    <th> Action</th>
-                                                </tr>
-                                            </thead>
-                                            @foreach ( $kategori as $data)
-                                            <tr>
-                                                <td>{{ $data->id }}</td>
-                                                <td>{{ $data->nama }}</td>
-                                            </tr>
-
-                                                <td class="d-flex align-items-center">
-                                                   <div>
-                                                        <p class="mb-0 fw-medium fs-14">Richard Dom</p>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <span class="badge bg-primary-subtle text-primary fw-semibold">Delivered</span>
-                                                </td>
-                                                <form action="{{route('brand.destroy', $data->id)}}" method="POST">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                <td>
-                                                    <a href="{{route('kategori.edit', $data->id)}}" class="btn btn-sm bg-primary-subtle me-1" data-bs-toggle="tooltip" data-bs-original-title="Edit">
-                                                        <i class="mdi mdi-pencil-outline fs-14 text-primary"></i>
-                                                    </a>
-                                                </td>
-                                            </form>
-                                        </tr>
-                                        @endforeach
-
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
                 </div>
 
                 @include('layouts.backend.footer')

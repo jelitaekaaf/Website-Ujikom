@@ -43,7 +43,7 @@
                             <!-- item-->
                             <a href="javascript:void(0);" class="dropdown-item notify-item text-muted link-primary active">
                                 <div class="notify-icon">
-                                    <img src="assets/images/users/user-12.jpg" class="img-fluid rounded-circle" alt="" />
+                                    <img src="{{ asset('assets/images/users/user-12.jpg') }}" class="img-fluid rounded-circle" alt="" />
                                 </div>
                                 <div class="d-flex align-items-center justify-content-between">
                                     <p class="notify-details">Carl Steadham</p>
@@ -66,7 +66,7 @@
 
                 <li class="dropdown notification-list topbar-dropdown">
                     <a class="nav-link dropdown-toggle nav-user me-0" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                        <img src="assets/images/me.jpg" alt="user-image" class="rounded-circle">
+                        <img src="{{ asset('assets/images/me.jpg') }}" alt="user-image" class="rounded-circle">
                         <span class="pro-user-name ms-1">
                             {{Auth::user()->name}}
                             <i class="mdi mdi-chevron-down"></i>

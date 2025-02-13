@@ -3,126 +3,120 @@
 namespace App\Http\Controllers;
 
 use App\Models\barang;
+use App\Models\pembelian;
+use App\Models\kategori;
 use Illuminate\Http\Request;
 
 class BarangController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $barang =barang::all();
-        $title = 'Delete User!';
-        $text = "Are you sure you want to delete?";
+        $barang = Barang::all();  // Mengambil semua data
         return view('admin.barang.index', compact('barang'));
     }
 
     /**
      * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function create()
     {
-        return view('admin.barang.create');
+        $barang = Barang::all();
+        $pembelian = Pembelian::all();
+        $kategori = Kategori::all();
+
+
+        return view('admin.barang.create', compact('pembelian', 'kategori','barang'));
     }
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'nama' => 'required',
+        $request->validate([
+            'id_kategori' => 'required',
+            'id_pembelian' => 'required',
+            'nama_barang'=> 'required',
             'harga_beli' => 'required',
             'harga_jual' => 'required',
             'stok' => 'required',
-            'id_kategori' => 'required',
-            'id_peminjaman' => 'required',
-
         ]);
-        $barang = new barang();
-        $barang->nama = $request->nama;
+
+
+        $barang = new Barang();
+        $barang->id_kategori = $request->id_kategori;
+        $barang->id_pembelian = $request->id_pembelian;
+        $barang->nama_barang = $request->nama_barang;
         $barang->harga_beli = $request->harga_beli;
         $barang->harga_jual = $request->harga_jual;
         $barang->stok = $request->stok;
-        $barang->id_kategori = $request->id_kategori;
-        $barang->id_peminjam = $request->id_peminjam;
         $barang->save();
-        // Alert::success('Success','Data Berhasil di tambahkan')->autoClose(2000);
+
+        // Alert::success('Success', 'Data Behasil Ditambahkan')->autoClose(1000);
         return redirect()->route('barang.index');
     }
 
     /**
      * Display the specified resource.
-     *
-     * @param  \App\Models\barang  $barang
-     * @return \Illuminate\Http\Response
      */
-    public function show(barang $barang)
+    public function show($id)
     {
         //
     }
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\barang  $barang
-     * @return \Illuminate\Http\Response
      */
-    public function edit(barang $id)
+    public function edit($id)
     {
-        $barang = barang::findOrFail($id);
-        return view('admin.barang.edit', compact('barang'));
+        $barang = Barang::findOrFail($id);
+        $pembelian= Pembelian::all();
+        $kategori = Kategori::all();
+
+        return view('admin.barang.edit', compact('pembelian','kategori', 'barang'));
     }
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\barang  $barang
-     * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,  $id)
+    public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'nama' => 'required',
+        $request->validate([
+            'id_kategori' => 'required',
+            'id_pembelian' => 'required',
+            'nama_barang' => 'required',
             'harga_beli' => 'required',
             'harga_jual' => 'required',
             'stok' => 'required',
-            'id_kategori' => 'required',
-            'id_peminjaman' => 'required',
-
         ]);
-        $barang = barang::findOrFail($id);
-        $barang->nama = $request->nama;
+
+
+        $barang = Barang::findOrFail($id);
+        $barang->id_kategori = $request->id_kategori;
+        $barang->id_pembelian = $request->id_pembelian;
+        $barang->nama_barang = $request->nama_barang;
         $barang->harga_beli = $request->harga_beli;
         $barang->harga_jual = $request->harga_jual;
         $barang->stok = $request->stok;
-        $barang->id_kategori = $request->id_kategori;
-        $barang->id_peminjam = $request->id_peminjam;
         $barang->save();
-        // Alert::success('Success', 'Edit Data Berhasil di Simpan')->autoclose(2000);
+
+
+        // Alert::success('Success', 'Data Behasil Diubah')->autoClose(1000);
         return redirect()->route('barang.index');
     }
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\barang  $barang
-     * @return \Illuminate\Http\Response
      */
-    public function destroy(barang $id)
+    public function destroy($id)
     {
-        $barang = barang::findOrFail($id);
+        $barang = Barang::findOrFail($id);
         $barang->delete();
-        // Alert::success('Success', 'Data Ini Telah Di Hapus')->autoclose(2000);
+
+        // Alert::success('Success', 'Data Behasil DiHapus')->autoClose(1000);
         return redirect()->route('barang.index');
     }
 }

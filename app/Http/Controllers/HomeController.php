@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class HomeController extends Controller
 {
@@ -21,12 +22,23 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
+    // public function index()
+    // {
+    //     return view('home');
+    // }
     public function index()
     {
-        return view('home');
+        $tanggal = Carbon::now()->translatedFormat('l, d F Y');
+        $waktu = Carbon::now()->format('H:i:s');
+
+        return view('home', compact('tanggal', 'waktu'));
     }
-    public function datab()
+    public function kalendar()
     {
-        return view('data');
+        return view('calendar');
+    }
+    public function lapor()
+    {
+        return view('laporan');
     }
 }

@@ -7,18 +7,18 @@
             <div class="logo-box">
                 {{-- <a href="index.html" class="logo logo-light">
                     <span class="logo-sm">
-                        <img src="assets/images/logo-sm.png" alt="" height="22">
+                        <img src="{{ asset('assets/images/logo-sm.png" alt="" height="22">
                     </span>
                     <span class="logo-lg">
-                        <img src="assets/images/logo-light.png" alt="" height="24">
+                        <img src="{{ asset('assets/images/logo-light.png" alt="" height="24">
                     </span>
                 </a> --}}
                 <a href="index.html" class="logo logo-dark">
                     <span class="logo-sm">
-                        <img src="assets/images/sample.jpg" alt="" height="45">
+                        <img src="{{ asset('assets/images/inven.png') }}" alt="" height="45">
                     </span>
                     <span class="logo-lg">
-                        <img src="assets/images/sample.jpg" alt="" height="45">
+                        <img src="{{ asset('assets/images/inven.png') }}" alt="" height="45">
                     </span>
                 </a>
             </div>
@@ -28,43 +28,73 @@
                 <li class="menu-title">Menu</li>
 
                 <li>
-                    <a href="#sidebarDashboards" data-bs-toggle="collapse">
+                    <a href="/home" class="tp-link">
                         <i data-feather="home"></i>
                         <span> Dashboard </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#sidebarTables" data-bs-toggle="collapse" class="collapsed">
+                        <i data-feather="package"></i>
+                        <span> Master </span>
                         <span class="menu-arrow"></span>
                     </a>
-                    <div class="collapse" id="sidebarDashboards">
+                    <div class="collapse" id="sidebarTables">
                         <ul class="nav-second-level">
-                            <li>
-                                <a href="index.html" class="tp-link">CRM</a>
-                            </li>
-                            <li>
-                                <a href="analytics.html" class="tp-link">Analytics</a>
-                            </li>
-                            <li>
-                                <a href="ecommerce.html" class="tp-link">eCommerce</a>
-                            </li>
+                            <li><a href="barang" class="tp-link">Barang</a></li>
+                            <li><a href="kategori" class="tp-link">Kategori</a></li>
+                            <li><a href="catatanstok" class="tp-link">Catatan Stok</a></li>
+                            <li><a href="catatankeuangan" class="tp-link">Catatan Keuangan</a></li>
                         </ul>
                     </div>
                 </li>
-                <li class="menu-title mt-2">Apps</li>
 
+                {{-- <li>
+                    <a href="calendar" class="tp-link">
+                        <i data-feather="calendar"></i>
+                        <span> Calendar </span>
+                    </a>
+                </li> --}}
+
+                 <li class="menu-title mt-2">Manajemen Stok</li>
+                 {{-- <li>
+                    <a href="pembelian" class="tp-link">
+                        <i data-feather="slack"></i>
+                        <span> Pembelian </span>
+                    </a>
+                </li>
                 <li>
-                    <a href="apps-todolist.html" class="tp-link">
-                        <i data-feather="columns"></i>
-                        <span> Todo List </span>
+                    <a href="transaksi" class="tp-link">
+                        <i data-feather="file-minus"></i>
+                        <span> Transaksi </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="dettransaksi" class="tp-link">
+                        <i data-feather="file-text"></i>
+                        <span> Detail Transaksi </span>
+                    </a>
+                </li> --}}
+                <li>
+                    <a href="barang_masuk" class="tp-link">
+                        <i data-feather="log-in"></i>
+                        <span> Barang Masuk 📥</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="barang_keluar" class="tp-link">
+                        <i data-feather="log-out"></i>
+                        <span> Barang Keluar 📤</span>
                     </a>
                 </li>
 
+                <li class="menu-title mt-2">Laporan</li>
                 <li>
-                    <a href="data" class="tp-link">
-                        <i data-feather="table"></i>
-                        <span> Data Table </span>
-                    </a>
-                </li>
-
-
-
+                   <a href="laporan" class="tp-link">
+                       <i data-feather="clipboard"></i>
+                       <span> Laporan Stok Barang </span>
+                   </a>
+               </li>
             </ul>
         </div>
         <!-- End Sidebar -->
