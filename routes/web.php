@@ -56,7 +56,7 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/bKeluar', [App\Http\Controllers\HomeController::class, 'bKeluar'])->name('bKeluar');
 Route::get('/calendar', [App\Http\Controllers\HomeController::class, 'kalendar'])->name('calendar');
-// Route::get('/laporan', [App\Http\Controllers\HomController::class, 'lapor'])->name('laporan');
+Route::get('/profile', [App\Http\Controllers\HomeController::class, 'profile'])->name('profile');
 Route::get('/barang_masuk/exportExcel', [BarangMasukController::class, 'exportExcel'])->name('barang_masuk.exportExcel');
 
 

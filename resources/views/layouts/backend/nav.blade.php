@@ -12,7 +12,7 @@
                     {{-- <h5 class="mb-0">Good Morning,  {{Auth::user()->name}}</h5> --}}
                 </li>
             </ul>
-
+            
             <ul class="list-unstyled topnav-menu mb-0 d-flex align-items-center">
                 <li class="d-none d-sm-flex">
                     <button type="button" class="btn nav-link" data-toggle="fullscreen">
@@ -24,6 +24,15 @@
                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                         <i data-feather="bell" class="noti-icon"></i>
                         <span class="badge bg-danger rounded-circle noti-icon-badge">1</span>
+                        {{-- @php
+                            $jumlahNotifikasi = 0;
+                            if(count($stokTipis) > 0) $jumlahNotifikasi++;
+                        @endphp --}}
+
+                        {{-- <span class="badge bg-danger rounded-circle noti-icon-badge">
+                            {{ $jumlahNotifikasi }}
+                        </span> --}}
+
                     </a>
                     <div class="dropdown-menu dropdown-menu-end dropdown-lg">
 
@@ -39,9 +48,28 @@
                         </div>
 
                         <div class="noti-scroll" data-simplebar>
+                            {{-- Notifikasi Stok Tipis --}}
+                            {{-- @if(count($stokTipis) > 0)
+                            <a href="#" class="dropdown-item notify-item  text-muted link-primary active">
+                                <div class="notify-icon">
+                                    <i class="mdi mdi-alert-circle-outline text-danger fs-20"></i>
+                                </div>
+                                <div>
+                                    {{-- <p class="notify-details fw-bold">{{ $item->nama }}</p> --}}
+                                   {{-- <div class="d-flex align-items-center justify-content-between">
+                                        <p class="notify-details" style="color: #2e7d32;">Sistem</p>
+                                        <small class="text-muted">1 min ago</small>
+                                    </div>
+                                    <p class="mb-0 user-msg">
+                                        <small class="fs-14">Stok <span class="text-reset">Menipis !</span></small>
+                                    </p>
+                                </div>
+                            </a>
+                            @endif --}}
 
-                            <!-- item-->
-                            <a href="javascript:void(0);" class="dropdown-item notify-item text-muted link-primary active">
+
+                            {{-- Notifikasi lain --}}
+                            {{-- <a href="javascript:void(0);" class="dropdown-item notify-item text-muted link-primary active">
                                 <div class="notify-icon">
                                     <img src="{{ asset('assets/images/users/user-12.jpg') }}" class="img-fluid rounded-circle" alt="" />
                                 </div>
@@ -53,7 +81,7 @@
                                     <small class="fs-14">Completed <span class="text-reset">Improve</span></small>
                                 </p>
                             </a>
-                        </div>
+                        </div> --}}
 
                         <!-- All-->
                         <a href="javascript:void(0);" class="dropdown-item text-center text-primary notify-item notify-all">
@@ -79,7 +107,7 @@
                         </div>
 
                         <!-- item-->
-                        <a href="pages-profile.html" class="dropdown-item notify-item">
+                        <a href="profile" class="dropdown-item notify-item">
                             <i class="mdi mdi-account-circle-outline fs-16 align-middle"></i>
                             <span>My Account</span>
                         </a>

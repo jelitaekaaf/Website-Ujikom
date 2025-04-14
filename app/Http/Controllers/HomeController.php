@@ -45,9 +45,9 @@ class HomeController extends Controller
     {
         return view('bKeluar');
     }
-    public function kalendar()
+    public function profile()
     {
-        return view('calendar');
+        return view('profile');
     }
     public function lapor()
     {
