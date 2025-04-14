@@ -23,7 +23,14 @@ class BarangKeluarController extends Controller
     {
         $barangKeluar = BarangKeluar::all();
         return view('admin.barang_keluar.index', compact('barangKeluar'));
+
     }
+//     public function index()
+// {
+//     $barangKeluars = BarangKeluar::with('barang')->get(); // pastikan relasi 'barang' ada
+//     return view('bKeluar_blade', compact('barangKeluars'));
+// }
+
 
     // Halaman untuk Menambahkan Barang Keluar
     public function create()
@@ -37,6 +44,7 @@ class BarangKeluarController extends Controller
     {
         $request->validate([
             'nama' => 'required',
+            'tanggal_keluar' => 'required',
             'kode_barang' => 'required',
             'id_kategori' => 'required|exists:kategoris,id',
             'jumlah' => 'required|integer',
@@ -58,6 +66,7 @@ class BarangKeluarController extends Controller
         // Membuat objek BarangKeluar
         $barangKeluar = new BarangKeluar();
         $barangKeluar->nama = $request->nama;
+        $barangKeluar->tanggal_keluar = $request->tanggal_keluar;
         $barangKeluar->kode_barang = $kodeBarang; // Kode otomatis
         $barangKeluar->id_kategori = $request->id_kategori;
         $barangKeluar->jumlah = $request->jumlah;
@@ -85,6 +94,7 @@ class BarangKeluarController extends Controller
             'id_kategori' => 'required',
             'kode_barang' => 'required',
             'nama' => 'required|string',
+            'tanggal_keluar' => 'required|string',
             'jumlah' => 'required|numeric',
             'alasan_pengeluaran' => 'required|string',
             'tujuan_pemakaian' => 'required|string',
@@ -135,4 +145,26 @@ class BarangKeluarController extends Controller
 
         return redirect()->back()->with('success', 'Status barang keluar berhasil dikembalikan ke Pending.');
     }
+
+    // public function updateStatus(Request $request, $id)
+    // {
+    //     $barangKeluar = BarangKeluar::findOrFail($id);
+    //     $barangKeluar->status = $request->status;
+    //     $barangKeluar->save();
+
+    //     return response()->json(['message' => 'Status berhasil diperbarui']);
+    // }
+    public function updateStatus(Request $request, $id)
+    {
+    try {
+        $barangKeluar = BarangKeluar::findOrFail($id);
+        $barangKeluar->status = $request->status;
+        $barangKeluar->save();
+
+        return response()->json(['success' => true]);
+    } catch (\Exception $e) {
+        return response()->json(['success' => false, 'message' => $e->getMessage()]);
+    }
+    }
+
 }

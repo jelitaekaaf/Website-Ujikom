@@ -35,7 +35,6 @@ class CatatanStokController extends Controller
     {
         $request->validate([
             'id_barang' => 'required',
-            'jenis'=> 'required',
             'jumlah' => 'required',
             'tanggal' => 'required',
             'keterangan' => 'required',
@@ -44,7 +43,6 @@ class CatatanStokController extends Controller
 
         $catatanStok = new CatatanStok();
         $catatanStok->id_barang = $request->id_barang;
-        $catatanStok->jenis = $request->jenis;
         $catatanStok->jumlah = $request->jumlah;
         $catatanStok->tanggal = $request->tanggal;
         $catatanStok->keterangan = $request->keterangan;
@@ -80,7 +78,6 @@ class CatatanStokController extends Controller
     {
         $request->validate([
             'id_barang' => 'required',
-            'jenis'=> 'required',
             'jumlah' => 'required',
             'tanggal' => 'required',
             'keterangan' => 'required',
@@ -89,7 +86,6 @@ class CatatanStokController extends Controller
 
         $catatanStok = CatatanStok::findOrFail($id);
         $catatanStok->id_barang = $request->id_barang;
-        $catatanStok->jenis = $request->jenis;
         $catatanStok->jumlah = $request->jumlah;
         $catatanStok->tanggal = $request->tanggal;
         $catatanStok->keterangan = $request->keterangan;

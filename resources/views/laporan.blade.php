@@ -1,9 +1,12 @@
+@extends('layouts.backend')
+
+@section('content')
 <!DOCTYPE html>
 <html lang="en">
     <head>
 
         <meta charset="utf-8" />
-        <title>Laporan Keuangan</title>
+        <title>Data</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="A fully featured admin theme which can be used to build CRM, CMS, etc."/>
         <meta name="author" content="Zoyothemes"/>
@@ -12,12 +15,7 @@
         <!-- App favicon -->
         <link rel="shortcut icon" href="assets/images/favicon.ico">
 
-        <!-- Datatables css -->
-        <link href="assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css" rel="stylesheet" type="text/css" />
-        <link href="assets/libs/datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css" rel="stylesheet" type="text/css" />
-        <link href="assets/libs/datatables.net-keytable-bs5/css/keyTable.bootstrap5.min.css" rel="stylesheet" type="text/css" />
-        <link href="assets/libs/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css" rel="stylesheet" type="text/css" />
-        <link href="assets/libs/datatables.net-select-bs5/css/select.bootstrap5.min.css" rel="stylesheet" type="text/css" />
+        <link href="assets/libs/simple-datatables/style.css" rel="stylesheet" type="text/css" />
 
         <!-- App css -->
         <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" id="app-style" />
@@ -25,6 +23,25 @@
         <!-- Icons -->
         <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
 
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+
+        <style>
+            /* CSS agar hanya tabel yang dicetak */
+            @media print {
+                body * {
+                    /* visibility: hidden; */
+                }
+                #print-area, #print-area * {
+                    visibility: visible;
+                }
+                #print-area {
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    width: 100%;
+                }
+            }
+        </style>
     </head>
 
     <!-- body start -->
@@ -32,16 +49,6 @@
 
         <!-- Begin page -->
         <div id="app-layout">
-
-
-            <!-- Topbar Start -->
-            @include('layouts.backend.side')
-            <!-- end Topbar -->
-
-            <!-- Left Sidebar Start -->
-            @include('layouts.backend.nav')
-            <!-- Left Sidebar End -->
-
             <!-- ============================================================== -->
             <!-- Start Page Content here -->
             <!-- ============================================================== -->
@@ -51,533 +58,143 @@
 
                     <!-- Start Content-->
                     <div class="container-fluid">
-
-                        <div class="py-3 d-flex align-items-sm-center flex-sm-row flex-column">
-                            <div class="flex-grow-1">
-                                <h4 class="fs-18 fw-semibold m-0">Data Tables</h4>
-                            </div>
-
-                            <div class="text-end">
-                                <ol class="breadcrumb m-0 py-0">
-                                    <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
-                                    <li class="breadcrumb-item active">Laporan Keuangan</li>
-                                </ol>
-                            </div>
-                        </div>
-                        <div class="row mb-3">  <div class="col-12">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="d-flex flex-wrap gap-2"> <button class="btn btn-primary filter-button" data-filter="all">Semua</button>
-                                        <button class="btn btn-secondary filter-button" data-filter="los-angeles">Los Angeles</button>
-                                        <button class="btn btn-secondary filter-button" data-filter="chicago">Chicago</button>
-                                        <button class="btn btn-secondary filter-button" data-filter="san-francisco">San Francisco</button>
-                                        </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                        <!-- Laporan Keuangan -->
+                        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Manajemen Stok /</span> Barang Masuk</h4>
                         <div class="row">
-                            <div class="col-12">
-                                <div class="card">
+                            <div class="col-md-12">
+                                <div class="card overflow-hidden mb-0">
                                     <div class="card-header">
-                                        <h5 class="card-title mb-0">Laporan Keuangan</h5>
-                                    </div><!-- end card header -->
-
-                                    <div class="card-body">
-                                        <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap">
-                                            <thead>
-                                                <tr>
-                                                    <th>Name</th>
-                                                    <th>Position</th>
-                                                    <th>Office</th>
-                                                    <th>Age</th>
-                                                    <th>Start date</th>
-                                                    <th>Salary</th>
+                                        <div class="d-flex align-items-center">
+                                            <h5 class="card-title text-black mb-0">Barang Masuk</h5>
+                                            <a href="{{route('barang_masuk.create')}}" class="btn btn-primary ms-auto me-2">+ Tambah Data</a>
+                                            <button onclick="printTable()" class="btn btn-secondary me-2">🖨 Print</button>
+                                        </div>
+                                    </div>
+                                        {{-- @if(session('success'))
+                                            <div class="alert alert-success">{{ session('success') }}</div>
+                                        @endif --}}
+                                        <div class="card-body mt-0">
+                                            <div class="table-responsive table-card mt-0">
+                                            {{-- <table class="table table-borderless table-centered align-middle table-nowrap mb-0"> --}}
+                                                <table class="table table-striped table-bordered dt-responsive nowrap">
+                                                <thead class="text-muted table-primary">
+                                                    <tr>
+                                                    <th scope="col" class="cursor-pointer">No</th>
+                                                    <th scope="col" class="cursor-pointer">Nama</th>
+                                                    <th scope="col" class="cursor-pointer">Kode Barang</th>
+                                                    <th scope="col" class="cursor-pointer">Kategori</th>
+                                                    {{-- <th scope="col" class="cursor-pointer">Status</th> --}}
+                                                    <th scope="col" class="cursor-pointer">Pemasok</th>
+                                                    <th scope="col" class="cursor-pointer">Jumlah</th>
+                                                    <th scope="col" class="cursor-pointer">Harga Beli</th>
+                                                    <th scope="col" class="cursor-pointer">Tanggal Masuk</th>
+                                                    <th scope="col" class="cursor-pointer">Faktur</th>
+                                                    <th scope="col" class="cursor-pointer">Aksi</th>
+                                                    <th scope="col" class="cursor-pointer">Status</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                @foreach($barangMasuk as $item)
                                                 <tr>
-                                                    <td>John Smith</td>
-                                                    <td>Project Manager</td>
-                                                    <td>Los Angeles</td>
-                                                    <td>35</td>
-                                                    <td>2023-08-10</td>
-                                                    <td>$110,000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Emily Davis</td>
-                                                    <td>Marketing Specialist</td>
-                                                    <td>Chicago</td>
-                                                    <td>29</td>
-                                                    <td>2022-12-05</td>
-                                                    <td>$85,000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Michael Brown</td>
-                                                    <td>Software Engineer</td>
-                                                    <td>San Francisco</td>
-                                                    <td>31</td>
-                                                    <td>2023-04-18</td>
-                                                    <td>$120,000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Sarah Wilson</td>
-                                                    <td>Financial Analyst</td>
-                                                    <td>Houston</td>
-                                                    <td>28</td>
-                                                    <td>2023-10-30</td>
-                                                    <td>$95,000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>David Miller</td>
-                                                    <td>Product Manager</td>
-                                                    <td>Seattle</td>
-                                                    <td>33</td>
-                                                    <td>2022-09-15</td>
-                                                    <td>$125,000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Jessica Thompson</td>
-                                                    <td>HR Specialist</td>
-                                                    <td>Miami</td>
-                                                    <td>30</td>
-                                                    <td>2023-01-25</td>
-                                                    <td>$80,000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Matthew Lee</td>
-                                                    <td>Data Scientist</td>
-                                                    <td>Denver</td>
-                                                    <td>34</td>
-                                                    <td>2022-11-08</td>
-                                                    <td>$130,000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Olivia Garcia</td>
-                                                    <td>Graphic Designer</td>
-                                                    <td>Atlanta</td>
-                                                    <td>27</td>
-                                                    <td>2023-07-20</td>
-                                                    <td>$75,000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>James Hernandez</td>
-                                                    <td>Business Analyst</td>
-                                                    <td>Phoenix</td>
-                                                    <td>32</td>
-                                                    <td>2023-03-12</td>
-                                                    <td>$100,000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Emma Martinez</td>
-                                                    <td>UX/UI Designer</td>
-                                                    <td>Portland</td>
-                                                    <td>29</td>
-                                                    <td>2023-09-05</td>
-                                                    <td>$90,000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>William Clark</td>
-                                                    <td>Software Developer</td>
-                                                    <td>Boston</td>
-                                                    <td>28</td>
-                                                    <td>2023-05-28</td>
-                                                    <td>$115,000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Ava Taylor</td>
-                                                    <td>Content Writer</td>
-                                                    <td>Philadelphia</td>
-                                                    <td>26</td>
-                                                    <td>2022-10-22</td>
-                                                    <td>$70,000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Joseph White</td>
-                                                    <td>Project Coordinator</td>
-                                                    <td>Dallas</td>
-                                                    <td>31</td>
-                                                    <td>2023-02-15</td>
-                                                    <td>$85,000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Sophia Perez</td>
-                                                    <td>Systems Analyst</td>
-                                                    <td>San Diego</td>
-                                                    <td>30</td>
-                                                    <td>2023-12-10</td>
-                                                    <td>$105,000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Daniel Scott</td>
-                                                    <td>Marketing Manager</td>
-                                                    <td>Charlotte</td>
-                                                    <td>33</td>
-                                                    <td>2023-06-18</td>
-                                                    <td>$110,000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Isabella Rodriguez</td>
-                                                    <td>Financial Advisor</td>
-                                                    <td>Las Vegas</td>
-                                                    <td>27</td>
-                                                    <td>2023-11-05</td>
-                                                    <td>$95,000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Logan Nguyen</td>
-                                                    <td>Product Designer</td>
-                                                    <td>Minneapolis</td>
-                                                    <td>32</td>
-                                                    <td>2022-12-30</td>
-                                                    <td>$120,000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Mia Kim</td>
-                                                    <td>HR Manager</td>
-                                                    <td>Orlando</td>
-                                                    <td>29</td>
-                                                    <td>2023-08-25</td>
-                                                    <td>$100,000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Benjamin King</td>
-                                                    <td>Data Engineer</td>
-                                                    <td>Salt Lake City</td>
-                                                    <td>34</td>
-                                                    <td>2022-09-10</td>
-                                                    <td>$125,000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Charlotte Thomas</td>
-                                                    <td>Business Development Manager</td>
-                                                    <td>Tampa</td>
-                                                    <td>31</td>
-                                                    <td>2023-03-28</td>
-                                                    <td>$95,000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Ethan Martinez</td>
-                                                    <td>Software Tester</td>
-                                                    <td>Austin</td>
-                                                    <td>28</td>
-                                                    <td>2023-10-15</td>
-                                                    <td>$115,000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Madison Jackson</td>
-                                                    <td>UX/UI Developer</td>
-                                                    <td>Washington D.C.</td>
-                                                    <td>30</td>
-                                                    <td>2023-01-10</td>
-                                                    <td>$90,000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Lucas Adams</td>
-                                                    <td>Content Manager</td>
-                                                    <td>San Jose</td>
-                                                    <td>27</td>
-                                                    <td>2022-07-22</td>
-                                                    <td>$75,000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Chloe Walker</td>
-                                                    <td>Project Analyst</td>
-                                                    <td>Detroit</td>
-                                                    <td>32</td>
-                                                    <td>2023-05-05</td>
-                                                    <td>$110,000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Jack Wright</td>
-                                                    <td>Technical Writer</td>
-                                                    <td>Indianapolis</td>
-                                                    <td>26</td>
-                                                    <td>2023-02-20</td>
-                                                    <td>$80,000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Hannah Baker</td>
-                                                    <td>Systems Administrator</td>
-                                                    <td>Charlotte</td>
-                                                    <td>33</td>
-                                                    <td>2023-09-18</td>
-                                                    <td>$105,000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Liam Hall</td>
-                                                    <td>Marketing Coordinator</td>
-                                                    <td>San Francisco</td>
-                                                    <td>28</td>
-                                                    <td>2023-06-15</td>
-                                                    <td>$95,000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Grace Young</td>
-                                                    <td>Product Owner</td>
-                                                    <td>Denver</td>
-                                                    <td>29</td>
-                                                    <td>2022-11-30</td>
-                                                    <td>$120,000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Dylan Evans</td>
-                                                    <td>Business Consultant</td>
-                                                    <td>Seattle</td>
-                                                    <td>34</td>
-                                                    <td>2023-04-05</td>
-                                                    <td>$100,000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Victoria Moore</td>
-                                                    <td>Software Developer</td>
-                                                    <td>Boston</td>
-                                                    <td>27</td>
-                                                    <td>2023-07-12</td>
-                                                    <td>$115,000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Nathan Lopez</td>
-                                                    <td>Marketing Specialist</td>
-                                                    <td>Chicago</td>
-                                                    <td>33</td>
-                                                    <td>2023-02-28</td>
-                                                    <td>$85,000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Hailey Adams</td>
-                                                    <td>Product Manager</td>
-                                                    <td>San Francisco</td>
-                                                    <td>30</td>
-                                                    <td>2022-10-15</td>
-                                                    <td>$125,000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Andrew Thompson</td>
-                                                    <td>Financial Analyst</td>
-                                                    <td>Houston</td>
-                                                    <td>29</td>
-                                                    <td>2023-12-05</td>
-                                                    <td>$95,000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Madeline Wilson</td>
-                                                    <td>HR Specialist</td>
-                                                    <td>Miami</td>
-                                                    <td>32</td>
-                                                    <td>2023-06-20</td>
-                                                    <td>$80,000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Aiden Garcia</td>
-                                                    <td>Data Scientist</td>
-                                                    <td>Denver</td>
-                                                    <td>28</td>
-                                                    <td>2023-11-08</td>
-                                                    <td>$130,000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Kayla Hernandez</td>
-                                                    <td>Graphic Designer</td>
-                                                    <td>Atlanta</td>
-                                                    <td>31</td>
-                                                    <td>2023-04-20</td>
-                                                    <td>$75,000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Landon Scott</td>
-                                                    <td>Business Analyst</td>
-                                                    <td>Phoenix</td>
-                                                    <td>26</td>
-                                                    <td>2023-09-12</td>
-                                                    <td>$100,000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Sophie Martinez</td>
-                                                    <td>UX/UI Designer</td>
-                                                    <td>Portland</td>
-                                                    <td>33</td>
-                                                    <td>2023-01-05</td>
-                                                    <td>$90,000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Henry Clark</td>
-                                                    <td>Content Writer</td>
-                                                    <td>Philadelphia</td>
-                                                    <td>29</td>
-                                                    <td>2022-08-22</td>
-                                                    <td>$70,000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Grace White</td>
-                                                    <td>Project Coordinator</td>
-                                                    <td>Dallas</td>
-                                                    <td>30</td>
-                                                    <td>2023-03-15</td>
-                                                    <td>$85,000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Lucas Perez</td>
-                                                    <td>Systems Analyst</td>
-                                                    <td>San Diego</td>
-                                                    <td>27</td>
-                                                    <td>2023-10-10</td>
-                                                    <td>$105,000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Emma Scott</td>
-                                                    <td>Marketing Manager</td>
-                                                    <td>Charlotte</td>
-                                                    <td>34</td>
-                                                    <td>2022-12-18</td>
-                                                    <td>$110,000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Noah Rodriguez</td>
-                                                    <td>Financial Advisor</td>
-                                                    <td>Las Vegas</td>
-                                                    <td>31</td>
-                                                    <td>2023-07-05</td>
-                                                    <td>$95,000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Chloe Nguyen</td>
-                                                    <td>Product Designer</td>
-                                                    <td>Minneapolis</td>
-                                                    <td>28</td>
-                                                    <td>2023-02-20</td>
-                                                    <td>$120,000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>William Kim</td>
-                                                    <td>HR Manager</td>
-                                                    <td>Orlando</td>
-                                                    <td>33</td>
-                                                    <td>2022-09-25</td>
-                                                    <td>$100,000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Emily King</td>
-                                                    <td>Data Engineer</td>
-                                                    <td>Salt Lake City</td>
-                                                    <td>30</td>
-                                                    <td>2023-04-10</td>
-                                                    <td>$125,000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Nicholas Thomas</td>
-                                                    <td>Business Development Manager</td>
-                                                    <td>Tampa</td>
-                                                    <td>27</td>
-                                                    <td>2023-11-28</td>
-                                                    <td>$95,000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Oliver Martinez</td>
-                                                    <td>Software Tester</td>
-                                                    <td>Austin</td>
-                                                    <td>34</td>
-                                                    <td>2023-08-15</td>
-                                                    <td>$115,000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Sophia Brown</td>
-                                                    <td>UX/UI Developer</td>
-                                                    <td>Washington D.C.</td>
-                                                    <td>31</td>
-                                                    <td>2022-07-10</td>
-                                                    <td>$90,000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Liam Wilson</td>
-                                                    <td>Content Manager</td>
-                                                    <td>San Jose</td>
-                                                    <td>28</td>
-                                                    <td>2023-12-22</td>
-                                                    <td>$75,000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Charlotte Garcia</td>
-                                                    <td>Project Analyst</td>
-                                                    <td>Detroit</td>
-                                                    <td>33</td>
-                                                    <td>2023-05-05</td>
-                                                    <td>$110,000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Ethan Wright</td>
-                                                    <td>Technical Writer</td>
-                                                    <td>Indianapolis</td>
-                                                    <td>30</td>
-                                                    <td>2023-01-20</td>
-                                                    <td>$80,000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Isabella Baker</td>
-                                                    <td>Systems Administrator</td>
-                                                    <td>Charlotte</td>
-                                                    <td>27</td>
-                                                    <td>2023-09-18</td>
-                                                    <td>$105,000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>James Hall</td>
-                                                    <td>Marketing Coordinator</td>
-                                                    <td>San Francisco</td>
-                                                    <td>34</td>
-                                                    <td>2022-06-15</td>
-                                                    <td>$95,000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Emma Young</td>
-                                                    <td>Product Owner</td>
-                                                    <td>Denver</td>
-                                                    <td>29</td>
-                                                    <td>2022-11-30</td>
-                                                    <td>$120,000</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Aiden Evans</td>
-                                                    <td>Business Consultant</td>
-                                                    <td>Seattle</td>
-                                                    <td>32</td>
-                                                    <td>2023-04-05</td>
-                                                    <td>$100,000</td>
-                                                </tr>
+                                                    <td><span class="d-inline-block align-middle mb-0 text-body">{{ $loop->index + 1 }}</td>
+                                                    <td><span class="d-inline-block align-middle mb-0 text-body">{{ $item->nama }}</td>
+                                                    <td><span class="d-inline-block align-middle mb-0 text-body">{{ $item->kode_barang }}</td>
+                                                    <td><span class="d-inline-block align-middle mb-0 text-body">{{ $item->kategori->nama }}</td>
+                                                    {{-- <td><span class="badge bg-info-subtle text-info fw-semibold">{{ $item->status }}</td> --}}
+                                                        {{-- <td>
+                                                            <span class="badge
+                                                                @if($item->status == 'pending') bg-warning-subtle text-warning fw-semibold
+                                                                @elseif($item->status == 'disetujui') bg-success-subtle text-success fw-semibold
+                                                                @elseif($item->status == 'ditolak') bg-danger-subtle text-danger fw-semibold
+                                                                @endif">
+                                                                {{ ucfirst($item->status) }}
+                                                            </span>
+                                                        </td> --}}
+
+                                                    <td><span class="d-inline-block align-middle mb-0 text-body">{{ $item->pemasok }}</td>
+                                                    <td><span class="d-inline-block align-middle mb-0 text-body">{{ $item->jumlah }}</td>
+                                                    <td><span class="d-inline-block align-middle mb-0 text-body">{{ $item->harga_beli }}</td>
+                                                    <td><span class="d-inline-block align-middle mb-0 text-body">{{ $item->tanggal_masuk }}</td>
+                                                    {{-- <td><span class="d-inline-block align-middle mb-0 text-body">{{ $item->faktur }}</td> --}}
+                                                        {{-- <td>
+                                                            <img src="{{ asset('/images/faktur/' . $item->faktur) }}" width="100">
+                                                          </td> --}}
+
+                                                          <td>
+                                                            @if($item->faktur)
+                                                                <img src="{{ asset(str_replace('storage/', 'storage/', $item->faktur)) }}" width="100">
+                                                            @else
+                                                                Tidak ada faktur
+                                                            @endif
+                                                        </td>
+                                                        <td>
+                                                            <a href="{{ route('barang_masuk.edit', $item->id) }}" aria-label="anchor" class="btn btn-sm bg-primary-subtle me-1" data-bs-toggle="tooltip" data-bs-original-title="Edit">
+                                                             <i class="mdi mdi-pencil-outline fs-14 text-primary"></i>
+                                                            </a>
+                                                            <form id="form-hapus-{{ $item->id }}" action="{{ route('barang_masuk.destroy', $item->id) }}" method="POST" style="display:inline;">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button onclick="hapusData({{ $item->id }}, event)" type="button" class="btn btn-sm bg-danger-subtle me-1" data-bs-toggle="tooltip" data-bs-original-title="Hapus">
+                                                                    <i class="mdi mdi-delete fs-14 text-danger"></i>
+                                                                </button>
+                                                            </form>
+                                                        </td>
+                                                        <td>
+                                                            @if ($item->status == 'pending')
+                                                            <form action="{{ route('barang_masuk.approve', $item->id) }}" method="POST" style="display:inline">
+                                                                @csrf
+                                                                @method('PUT')
+                                                                {{-- <button type="submit" class="btn btn-success btn-sm fw-bold">✔ Setuju</button> --}}
+                                                                <button onclick="ubahStatus({{ $item->id }}, 'Disetujui')" type="submit"  aria-label="anchor" class="btn btn-sm bg-success-subtle" data-bs-toggle="tooltip" data-bs-original-title="✔ Setuju">
+                                                                    <i class="mdi mdi-check-decagram fs-14 text-success"></i></button>
+                                                            </form>
+                                                            <form action="{{ route('barang_masuk.reject', $item->id) }}" method="POST" style="display:inline">
+                                                                @csrf
+                                                                @method('PUT')
+                                                                <button onclick="ubahStatus({{ $item->id }}, 'Ditolak', event)" type="button" class="btn btn-sm bg-danger-subtle" data-bs-toggle="tooltip" data-bs-original-title="✖ Tolak">
+                                                                    <i class="mdi mdi-close-box-multiple fs-14 text-danger"></i>
+                                                                </button>
+                                                            </form>
+
+                                                            <form action="{{ route('barang_masuk.pending', $item->id) }}" method="POST" style="display:inline">
+                                                                @csrf
+                                                                @method('PUT')
+                                                                {{-- <button type="submit" class="btn btn-danger btn-sm fw-bold">✖ Tolak</button> --}}
+                                                                <button type="submit"  aria-label="anchor" class="btn btn-sm bg-warning-subtle" data-bs-toggle="tooltip" data-bs-original-title="✖ Pending">
+                                                                    <i class="mdi mdi-folder-refresh fs-14 text-warning"></i></button>
+                                                            </form>
+                                                            @else
+                                                            <span class="badge
+                                                            @if($item->status == 'pending') bg-warning-subtle text-warning fw-semibold
+                                                            @elseif($item->status == 'disetujui') bg-success-subtle text-success fw-semibold
+                                                            @elseif($item->status == 'ditolak') bg-danger-subtle text-danger fw-semibold
+                                                            @endif">
+                                                            {{ ucfirst($item->status) }}
+                                                        </span>
+                                                        @endif
+                                                        </td>
+                                                    </tr>
+                                                    @endforeach
                                             </tbody>
                                         </table>
                                     </div>
-
+                                 </script>
                                 </div>
                             </div>
                         </div>
-
-                    </div> <!-- container-fluid -->
-
-                </div> <!-- content -->
-
-                <!-- Footer Start -->
-                <footer class="footer">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col fs-13 text-muted text-center">
-                                &copy; <script>document.write(new Date().getFullYear())</script> - Made with <span class="mdi mdi-heart text-danger"></span> by <a href="#!" class="text-reset fw-semibold">Zoyothemes</a>
-                            </div>
                         </div>
                     </div>
-                </footer>
-                <!-- end Footer -->
-
+                </div>
+                @include('layouts.backend.footer')
             </div>
-            <!-- ============================================================== -->
-            <!-- End Page content -->
-            <!-- ============================================================== -->
-
-
         </div>
         <!-- END wrapper -->
 
+        <!-- JS untuk Print -->
+    <script>
+    function printTable() {
+        window.print();
+    }
+    </script>
         <!-- Vendor -->
         <script src="assets/libs/jquery/jquery.min.js"></script>
         <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -587,76 +204,107 @@
         <script src="assets/libs/jquery.counterup/jquery.counterup.min.js"></script>
         <script src="assets/libs/feather-icons/feather.min.js"></script>
 
-        <!-- Datatables js -->
-        <script src="assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+        <!-- Simple Datatables JS -->
+        <script src="assets/libs/simple-datatables/umd/simple-datatables.js"></script>
 
-        <!-- dataTables.bootstrap5 -->
-        <script src="assets/libs/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>
-        <script src="assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
-
-        <!-- buttons.colVis -->
-        <script src="assets/libs/datatables.net-buttons/js/buttons.colVis.min.js"></script>
-        <script src="assets/libs/datatables.net-buttons/js/buttons.flash.min.js"></script>
-        <script src="assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
-        <script src="assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
-
-        <!-- buttons.bootstrap5 -->
-        <script src="assets/libs/datatables.net-buttons-bs5/js/buttons.bootstrap5.min.js"></script>
-
-        <!-- dataTables.keyTable -->
-        <script src="assets/libs/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
-        <script src="assets/libs/datatables.net-keytable-bs5/js/keyTable.bootstrap5.min.js"></script>
-
-        <!-- dataTable.responsive -->
-        <script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-        <script src="assets/libs/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js"></script>
-
-        <!-- dataTables.select -->
-        <script src="assets/libs/datatables.net-select/js/dataTables.select.min.js"></script>
-        <script src="assets/libs/datatables.net-select-bs5/js/select.bootstrap5.min.js"></script>
-
-        <!-- Datatable Demo App Js -->
-        <script src="assets/js/pages/datatable.init.js"></script>
+        <!-- Simple Datatables Init JS -->
+        <script src="assets/js/pages/simple-datatables.init.js"></script>
 
         <!-- App js-->
         <script src="assets/js/app.js"></script>
+
+        {{-- Sweet Alert --}}
         <script>
-            $(document).ready(function() {
-                $('.filter-button').click(function() {
-                    var filter = $(this).data('filter');
-
-                    // Hide all rows first
-                    $('#datatable-buttons tbody tr').hide();
-
-                    if (filter === 'all') {
-                        // Show all rows if "All" is selected
-                        $('#datatable-buttons tbody tr').show();
-                    } else {
-                        // Show rows based on the selected filter (city)
-                        $('#datatable-buttons tbody tr').filter(function() {
-                            return $(this).find('td:nth-child(3)').text().toLowerCase() === filter; // 3rd column is "Office"
-                        }).show();
-                    }
-
-                    // Update button active state (optional)
-                    $('.filter-button').removeClass('btn-primary').addClass('btn-secondary');
-                    $(this).removeClass('btn-secondary').addClass('btn-primary');
-
+            @if(session('success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil!',
+                    text: "{{ session('success') }}",
+                    showConfirmButton: false,
+                    timer: 2000
                 });
+            @endif
 
-
-                // Initialize DataTable AFTER the filter buttons are set up
-                $('#datatable-buttons').DataTable({
-                    dom: 'Bfrtip', // Include buttons in the DataTable
-                    buttons: [
-                        'copy', 'csv', 'excel', 'pdf', 'print'
-                    ],
-                    // ... other DataTable options
+            @if(session('error'))
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal!',
+                    text: "{{ session('error') }}",
+                    showConfirmButton: false,
+                    timer: 2000
                 });
-
-
-            });
+            @endif
         </script>
+
+        {{-- Konfirmasi/Validasi SweetAlert Hapus --}}
+        <script>
+             function hapusData(id, event) {
+                event.preventDefault(); // Mencegah submit form langsung
+
+                Swal.fire({
+                    title: 'Apakah Anda yakin?',
+                    text: "Data yang dihapus tidak bisa dikembalikan!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Ya, hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.getElementById(`form-hapus-${id}`).submit();
+                    }
+                });
+            }
+            </script>
+
+            {{-- Konfirmasi/Validasi SweetAlert Tolak --}}
+            <script>
+                function ubahStatus(id, status, event) {
+                    event.preventDefault(); // Pastikan form tidak terkirim otomatis
+
+                    if (status === "Ditolak") {
+                        Swal.fire({
+                            title: 'Apakah Anda yakin ingin menolak barang ini?',
+                            text: "Barang yang ditolak tidak dapat diproses!",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#d33',
+                            cancelButtonColor: '#3085d6',
+                            confirmButtonText: 'Ya, Tolak!',
+                            cancelButtonText: 'Batal'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                kirimStatus(id, status);
+                            }
+                        });
+                    } else {
+                        kirimStatus(id, status);
+                    }
+                }
+
+                function kirimStatus(id, status) {
+                $.ajax({
+                    url: `/barang_masuk/${id}/status`,
+                    type: 'PUT',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    data: { status: status },
+                    success: function(response) {
+                        Swal.fire('Berhasil!', response.message, 'success');
+                        setTimeout(() => location.reload(), 1500);
+                    },
+                    error: function(xhr) {
+                        console.error(xhr.responseText);
+                        Swal.fire('Gagal!', 'Terjadi kesalahan, coba lagi.', 'error');
+                    }
+                });
+            }
+
+                </script>
+
 
     </body>
 </html>
+@endsection

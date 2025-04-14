@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\BarangMasuk;
+use App\Models\Barang2;
 use App\Models\Kategori;
 use Illuminate\Http\Request;
 use Alert;
@@ -70,12 +71,14 @@ class BarangMasukController extends Controller
         $barangMasuk->faktur = 'storage/' . $path;
     }
 
+
     $barangMasuk->save();
 
     // return redirect()->route('barang_masuk.index');
     return redirect()->route('barang_masuk.index')->with('success', 'Data berhasil ditambahkan!');
 
 }
+
 
 
     public function edit($id)
@@ -92,7 +95,7 @@ class BarangMasukController extends Controller
             'kode_barang' => 'required',
             'nama' => 'required|string',
             'pemasok' => 'required|string',
-            'jumlah' => 'required|numeric',
+            'jumlah' => 'required|integer',
             'harga_beli' => 'required|numeric',
             'tanggal_masuk' => 'required|date',
             'status' => 'required|in:pending,disetujui,ditolak',
@@ -103,18 +106,22 @@ class BarangMasukController extends Controller
         $barangMasuk->update($request->except(['_token', '_method']));
 
         // Upload File
-        if ($request->hasFile('faktur')) {
-            $file = $request->file('faktur');
-            $path = $file->store('faktur_barang', 'public'); // Simpan di storage
-            $data['faktur'] = 'storage/' . $path;
+        // if ($request->hasFile('faktur')) {
+        //     $file = $request->file('faktur');
+        //     $path = $file->store('faktur_barang', 'public'); // Simpan di storage
+        //     $data['faktur'] = 'storage/' . $path;
 
-            // Hapus faktur lama jika ada
-            if ($barang->faktur) {
-                Storage::disk('public')->delete(str_replace('storage/', '', $barangMasuk->faktur));
-            }
-        }
+        //     // Hapus faktur lama jika ada
+        //     if ($barangMasuk->faktur) {
+        //         Storage::disk('public')->delete(str_replace('storage/', '', $barangMasuk->faktur));
+        //     }
+        // }
+
+        // logActivity('update', 'barang_masuk', 'Mengedit barang masuk dengan ID '.$id);
+        // return response()->json(['message' => 'Data berhasil diperbarui']);
         return redirect()->route('barang_masuk.index')->with('success', 'Data berhasil diperbarui!');
     }
+
 
     public function destroy($id)
     {

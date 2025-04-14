@@ -74,7 +74,8 @@
                                         @endif --}}
                                         <div class="card-body mt-0">
                                             <div class="table-responsive table-card mt-0">
-                                            <table class="table table-borderless table-centered align-middle table-nowrap mb-0">
+                                            {{-- <table class="table table-borderless table-centered align-middle table-nowrap mb-0"> --}}
+                                                <table class="table table-striped table-bordered dt-responsive nowrap">
                                                 <thead class="text-muted table-primary">
                                                     <tr>
                                                     <th scope="col" class="cursor-pointer">No</th>
@@ -302,6 +303,8 @@
             }
 
                 </script>
+
+                
 
 
     </body>

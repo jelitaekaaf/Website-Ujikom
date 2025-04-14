@@ -31,16 +31,7 @@
 
                                             </div>
                                         </div>
-                                        <div class="row mb-3">
-                                            <label class="col-sm-2 col-form-label" for="basic-default-fullname">Jenis</label>
-                                            <div class="col-sm-10">
-                                                <select class="form-control" name="jenis">
-                                                        <option selected disabled >Pilih Jenis Keuangan</option>
-                                                        <option value="Barang Masuk">Barang Masuk</option>
-                                                        <option value="Barang Keluar">Barang Keluar</option>
-                                                </select>
-                                            </div>
-                                        </div>
+                                       
                                         <div class="row mb-3">
                                             <label class="col-sm-2 col-form-label" for="basic-default-fullname">Jumlah</label>
                                             <div class="col-sm-10">

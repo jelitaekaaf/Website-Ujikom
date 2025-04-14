@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\barang;
-use App\Models\pembelian;
 use App\Models\kategori;
 use Illuminate\Http\Request;
+use Alert;
 
 class BarangController extends Controller
 {
@@ -24,11 +24,10 @@ class BarangController extends Controller
     public function create()
     {
         $barang = Barang::all();
-        $pembelian = Pembelian::all();
         $kategori = Kategori::all();
 
 
-        return view('admin.barang.create', compact('pembelian', 'kategori','barang'));
+        return view('admin.barang.create', compact( 'kategori','barang'));
     }
 
     /**
@@ -38,7 +37,6 @@ class BarangController extends Controller
     {
         $request->validate([
             'id_kategori' => 'required',
-            'id_pembelian' => 'required',
             'nama_barang'=> 'required',
             'harga_beli' => 'required',
             'harga_jual' => 'required',
@@ -48,15 +46,15 @@ class BarangController extends Controller
 
         $barang = new Barang();
         $barang->id_kategori = $request->id_kategori;
-        $barang->id_pembelian = $request->id_pembelian;
         $barang->nama_barang = $request->nama_barang;
         $barang->harga_beli = $request->harga_beli;
         $barang->harga_jual = $request->harga_jual;
         $barang->stok = $request->stok;
         $barang->save();
 
+
         // Alert::success('Success', 'Data Behasil Ditambahkan')->autoClose(1000);
-        return redirect()->route('barang.index');
+        return redirect()->route('barang.index')->with('success', 'Berhasil Menambah data Barang!');;
     }
 
     /**
@@ -73,10 +71,9 @@ class BarangController extends Controller
     public function edit($id)
     {
         $barang = Barang::findOrFail($id);
-        $pembelian= Pembelian::all();
         $kategori = Kategori::all();
 
-        return view('admin.barang.edit', compact('pembelian','kategori', 'barang'));
+        return view('admin.barang.edit', compact('kategori', 'barang'));
     }
 
     /**
@@ -86,7 +83,6 @@ class BarangController extends Controller
     {
         $request->validate([
             'id_kategori' => 'required',
-            'id_pembelian' => 'required',
             'nama_barang' => 'required',
             'harga_beli' => 'required',
             'harga_jual' => 'required',
@@ -96,7 +92,6 @@ class BarangController extends Controller
 
         $barang = Barang::findOrFail($id);
         $barang->id_kategori = $request->id_kategori;
-        $barang->id_pembelian = $request->id_pembelian;
         $barang->nama_barang = $request->nama_barang;
         $barang->harga_beli = $request->harga_beli;
         $barang->harga_jual = $request->harga_jual;
@@ -104,9 +99,11 @@ class BarangController extends Controller
         $barang->save();
 
 
-        // Alert::success('Success', 'Data Behasil Diubah')->autoClose(1000);
+        Alert::success('Success', 'Data Behasil Diubah')->autoClose(1000);
         return redirect()->route('barang.index');
     }
+
+
 
     /**
      * Remove the specified resource from storage.
@@ -119,4 +116,6 @@ class BarangController extends Controller
         // Alert::success('Success', 'Data Behasil DiHapus')->autoClose(1000);
         return redirect()->route('barang.index');
     }
+
+
 }

@@ -9,17 +9,12 @@ class Barang extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['id_kategori','id_pembelian', 'nama_barang', 'harga_beli', 'harga_jual','stok', ];
+    protected $fillable = ['id_kategori', 'nama_barang', 'harga_beli', 'harga_jual','stok', ];
     public $timestamp = true;
 
     public function kategori()
     {
         return $this->belongsTo(Kategori::class, 'id_kategori');
-    }
-
-    public function pembelian()
-    {
-        return $this->belongsTo(Pembelian::class, 'id_pembelian');
     }
 
     public function catatanStok()
@@ -31,4 +26,11 @@ class Barang extends Model
     {
         return $this->hasMany(DetailTransaksi::class, 'id_barang');
     }
+
+
+    public function barangMasuk()
+    {
+        return $this->hasMany(BarangMasuk::class);
+    }
+
 }

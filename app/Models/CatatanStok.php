@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class CatatanStok extends Model
 {
-    protected $fillable = ['id','id_barang','jenis', 'jumlah', 'tanggal', 'keterangan' ];
+    protected $fillable = ['id','id_barang', 'jumlah', 'tanggal', 'keterangan' ];
     public $timestamp = true;
 
     public function barang()

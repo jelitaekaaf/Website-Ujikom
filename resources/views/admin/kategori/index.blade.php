@@ -51,7 +51,8 @@
                                 </div>
                                   <div class="card-body mt-0">
                                         <div class="table-responsive table-card mt-0">
-                                        <table class="table table-borderless table-centered align-middle table-nowrap mb-0">
+                                        {{-- <table class="table table-borderless table-centered align-middle table-nowrap mb-0"> --}}
+                                           <table class="table table-striped table-bordered dt-responsive nowrap">
                                             <thead class="text-muted table-primary">
                                                 <tr>
                                                     <th scope="col" class="cursor-pointer">No</th>
@@ -79,6 +80,34 @@
                                         </tr>
                                         @endforeach
                                         </table>
+                                    </div>
+                                </div>
+                                <div class="card-footer py-0 border-top">
+                                    <div class="row align-items-center">
+                                        <div class="col-sm">
+                                            <div class="text-block text-center text-sm-start">
+                                                <span class="fw-medium">1 of 3</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-auto mt-3 mt-sm-0">
+                                            <div class="pagination gap-2 justify-content-center py-3 ps-0 pe-3">
+                                                <ul class="pagination mb-0">
+                                                    <li class="page-item disabled">
+                                                        <a class="page-link me-2 rounded-2" href="javascript:void(0);"> Prev </a>
+                                                    </li>
+                                                    <li class="page-item active">
+                                                        <a class="page-link rounded-2 me-2" href="#">1</a>
+                                                    </li>
+                                                    <li class="page-item">
+                                                        <a class="page-link me-2 rounded-2" href="#">2</a>
+                                                    </li>
+                                                    <li class="page-item">
+                                                        <a class="page-link text-primary rounded-2" href="javascript:void(0);"> Next
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

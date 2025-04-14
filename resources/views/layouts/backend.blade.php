@@ -21,6 +21,7 @@
         <!-- Icons -->
         <link href="{{ asset('assets/css/icons.min.css') }}" rel="stylesheet" type="text/css') }}" />
 
+   
     </head>
 
     <!-- body start -->

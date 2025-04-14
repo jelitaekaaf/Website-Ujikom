@@ -15,13 +15,14 @@
                 </a> --}}
                 <a href="index.html" class="logo logo-dark">
                     <span class="logo-sm">
-                        <img src="{{ asset('assets/images/inven.png') }}" alt="" height="45">
+                        <img src="{{ asset('assets/images/s.png') }}" alt="" height="105">
                     </span>
                     <span class="logo-lg">
-                        <img src="{{ asset('assets/images/inven.png') }}" alt="" height="45">
+                        <img src="{{ asset('assets/images/s.png') }}" alt="" height="105">
                     </span>
                 </a>
             </div>
+            <br>
 
             <ul id="side-menu">
 
@@ -90,9 +91,13 @@
 
                 <li class="menu-title mt-2">Laporan</li>
                 <li>
-                   <a href="laporan" class="tp-link">
+                   <a href="laporan/barang-masuk" class="tp-link">
                        <i data-feather="clipboard"></i>
-                       <span> Laporan Stok Barang </span>
+                       <span> Laporan Barang Masuk </span>
+                   </a>
+                   <a href="laporan/barang-keluar" class="tp-link">
+                       <i data-feather="clipboard"></i>
+                       <span> Laporan Barang Keluar </span>
                    </a>
                </li>
             </ul>
@@ -103,3 +108,4 @@
 
     </div>
 </div>
+

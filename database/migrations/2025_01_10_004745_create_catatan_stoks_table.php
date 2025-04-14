@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('catatan_stoks', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_barang');
-            $table->string('jenis');
             $table->integer('jumlah');
             $table->date('tanggal');
             $table->string('keterangan');
-         
+            $table->foreign('id_barang')->references('id')->on('barangs')->onDelete('cascade');
+
             $table->timestamps();
         });
     }

@@ -4,6 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use App\Models\Kategori;
+use App\Models\Barang;
+use App\Models\BarangMasuk;
+use App\Models\BarangKeluar;
+// use App\Models\Kategori;
 
 class HomeController extends Controller
 {
@@ -28,10 +33,17 @@ class HomeController extends Controller
     // }
     public function index()
     {
-        $tanggal = Carbon::now()->translatedFormat('l, d F Y');
-        $waktu = Carbon::now()->format('H:i:s');
-
-        return view('home', compact('tanggal', 'waktu'));
+        $jumlahBarangMasuk = BarangMasuk::count();
+        $jumlahBarangKeluar = BarangKeluar::count();
+        $jumlahKategori = Kategori::count();
+        $stokTipis = Barang::where('stok', '<=', 5)->get();
+        // $jumlahKategori = Kategori::count();
+        // Tambahkan juga data lain jika perlu
+        return view('home', compact('jumlahKategori','jumlahBarangMasuk','jumlahBarangKeluar','stokTipis'));
+    }
+    public function bKeluar()
+    {
+        return view('bKeluar');
     }
     public function kalendar()
     {
@@ -41,4 +53,6 @@ class HomeController extends Controller
     {
         return view('laporan');
     }
+
+
 }

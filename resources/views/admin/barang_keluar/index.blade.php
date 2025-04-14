@@ -21,6 +21,8 @@
 
         <!-- Icons -->
         <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <style>
             /* CSS agar hanya tabel yang dicetak */
             @media print {
@@ -61,13 +63,16 @@
 
                                     <div class="card-body mt-0">
                                         <div class="table-responsive table-card mt-0">
-                                            <table class="table table-borderless table-centered align-middle table-nowrap mb-0">
+                                            {{-- <table class="table table-borderless table-centered align-middle table-nowrap mb-0"> --}}
+                                                <table class="table table-striped table-bordered dt-responsive nowrap">
                                                 <thead class="text-muted table-primary">
                                                     <tr>
 
                                                         <th scope="col" class="cursor-pointer">No</th>
+                                                        <th scope="col" class="cursor-pointer">Kategori</th>
                                                         <th scope="col" class="cursor-pointer">Kode</th>
                                                         <th scope="col" class="cursor-pointer">Nama</th>
+                                                        <th scope="col" class="cursor-pointer">Tanggal Keluar</th>
                                                         <th scope="col" class="cursor-pointer">Jumlah</th>
                                                         <th scope="col" class="cursor-pointer">Alasan Pengeluaran</th>
                                                         <th scope="col" class="cursor-pointer">Tujuan Pemakaian</th>
@@ -79,8 +84,10 @@
                                                     @foreach($barangKeluar as $item)
                                                     <tr>
                                                         <td><span class="d-inline-block align-middle mb-0 text-body">{{ $loop->index + 1 }}</td>
+                                                        <td><span class="d-inline-block align-middle mb-0 text-body">{{ $item->kategori->nama }}</td>
                                                         <td><span class="d-inline-block align-middle mb-0 text-body">{{ $item->kode_barang }}</td>
                                                         <td><span class="d-inline-block align-middle mb-0 text-body">{{ $item->nama }}</td>
+                                                        <td><span class="d-inline-block align-middle mb-0 text-body">{{ $item->tanggal_keluar }}</td>
                                                         <td><span class="d-inline-block align-middle mb-0 text-body">{{ $item->jumlah }}</td>
                                                         <td><span class="d-inline-block align-middle mb-0 text-body">{{ $item->alasan_pengeluaran }}</td>
                                                         <td><span class="d-inline-block align-middle mb-0 text-body">{{ $item->tujuan_pemakaian }}</td>
@@ -99,14 +106,14 @@
                                                         </td>
                                                         <td>
                                                             @if ($item->status == 'pending')
-                                                            <form action="{{ route('barang_masuk.approve', $item->id) }}" method="POST" style="display:inline">
+                                                            <form action="{{ route('barang_keluar.approve', $item->id) }}" method="POST" style="display:inline">
                                                                 @csrf
                                                                 @method('PUT')
                                                                 {{-- <button type="submit" class="btn btn-success btn-sm fw-bold">✔ Setuju</button> --}}
                                                                 <button onclick="ubahStatus({{ $item->id }}, 'Disetujui')" type="submit"  aria-label="anchor" class="btn btn-sm bg-success-subtle" data-bs-toggle="tooltip" data-bs-original-title="✔ Setuju">
                                                                     <i class="mdi mdi-check-decagram fs-14 text-success"></i></button>
                                                             </form>
-                                                            <form action="{{ route('barang_masuk.reject', $item->id) }}" method="POST" style="display:inline">
+                                                            <form action="{{ route('barang_keluar.reject', $item->id) }}" method="POST" style="display:inline">
                                                                 @csrf
                                                                 @method('PUT')
                                                                 <button onclick="ubahStatus({{ $item->id }}, 'Ditolak', event)" type="button" class="btn btn-sm bg-danger-subtle" data-bs-toggle="tooltip" data-bs-original-title="✖ Tolak">
@@ -114,7 +121,7 @@
                                                                 </button>
                                                             </form>
 
-                                                            <form action="{{ route('barang_masuk.pending', $item->id) }}" method="POST" style="display:inline">
+                                                            <form action="{{ route('barang_keluar.pending', $item->id) }}" method="POST" style="display:inline">
                                                                 @csrf
                                                                 @method('PUT')
                                                                 {{-- <button type="submit" class="btn btn-danger btn-sm fw-bold">✖ Tolak</button> --}}
@@ -218,28 +225,28 @@
 
         {{-- Konfirmasi/Validasi SweetAlert Tolak --}}
         <script>
-            function ubahStatus(id, status, event) {
-                event.preventDefault(); // Pastikan form tidak terkirim otomatis
+          function ubahStatus(id, status, event) {
+                    event.preventDefault(); // Pastikan form tidak terkirim otomatis
 
-                if (status === "Ditolak") {
-                    Swal.fire({
-                        title: 'Apakah Anda yakin ingin menolak barang ini?',
-                        text: "Barang yang ditolak tidak dapat diproses!",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#d33',
-                        cancelButtonColor: '#3085d6',
-                        confirmButtonText: 'Ya, Tolak!',
-                        cancelButtonText: 'Batal'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            kirimStatus(id, status);
-                        }
-                    });
-                } else {
-                    kirimStatus(id, status);
+                    if (status === "Ditolak") {
+                        Swal.fire({
+                            title: 'Apakah Anda yakin ingin menolak barang ini?',
+                            text: "Barang yang ditolak tidak dapat diproses!",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#d33',
+                            cancelButtonColor: '#3085d6',
+                            confirmButtonText: 'Ya, Tolak!',
+                            cancelButtonText: 'Batal'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                kirimStatus(id, status);
+                            }
+                        });
+                    } else {
+                        kirimStatus(id, status);
+                    }
                 }
-            }
 
             function kirimStatus(id, status) {
                 $.ajax({
@@ -248,20 +255,18 @@
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    data: {
-                        status: status
-                    },
+                    data: { status: status },
                     success: function(response) {
                         Swal.fire('Berhasil!', response.message, 'success');
-                        setTimeout(() => location.reload(), 2000);
+                        setTimeout(() => location.reload(), 1500);
                     },
                     error: function(xhr) {
                         console.error(xhr.responseText);
-                        Swal.fire('Error!', 'Terjadi kesalahan, coba lagi!', 'error');
+                        Swal.fire('Gagal!', 'Terjadi kesalahan, coba lagi.', 'error');
                     }
                 });
             }
-        </script>
+            </script>
     </body>
 </html>
 @endsection

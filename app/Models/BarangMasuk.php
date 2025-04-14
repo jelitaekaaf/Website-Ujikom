@@ -14,6 +14,10 @@ class BarangMasuk extends Model
 
     public $timestamp = true;
 
+    public function barang2()
+    {
+        return $this->hasOne(Barang::class, 'kode_barang');
+    }
     public function kategori()
     {
         return $this->belongsTo(Kategori::class, 'id_kategori');

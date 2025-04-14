@@ -42,6 +42,11 @@
                                     <input type="text" name="nama" class="form-control" value="{{ old('nama', $barangKeluar->nama) }}" required>
                                 </div>
 
+                                <div class="col-md-6 mb-3">
+                                    <label>Tanggal Keluar</label>
+                                    <input type="date" name="tanggal_keluar" class="form-control" required>
+                                </div>
+
                                 <div class="mb-3">
                                     <label>Jumlah</label>
                                     <input type="number" name="jumlah" class="form-control" value="{{ old('nama', $barangKeluar->jumlah) }}" required>

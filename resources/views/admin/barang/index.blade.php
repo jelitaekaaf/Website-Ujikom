@@ -51,12 +51,12 @@
                                 </div>
                                   <div class="card-body mt-0">
                                         <div class="table-responsive table-card mt-0">
-                                        <table class="table table-borderless table-centered align-middle table-nowrap mb-0">
+                                        {{-- <table class="table table-borderless table-centered align-middle table-nowrap mb-0"> --}}
+                                            <table class="table table-striped table-bordered dt-responsive nowrap">
                                             <thead class="text-muted table-primary">
                                                 <tr>
                                                     <th scope="col" class="cursor-pointer">No</th>
                                                     <th scope="col" class="cursor-pointer">Nama Kategori</th>
-                                                    <th scope="col" class="cursor-pointer">Nama Perusahaan</th>
                                                     <th scope="col" class="cursor-pointer">Nama Barang</th>
                                                     <th scope="col" class="cursor-pointer">Harga Beli</th>
                                                     <th scope="col" class="cursor-pointer">Harga Jual</th>
@@ -69,7 +69,6 @@
                                             <tr>
                                                     <td><span class="d-inline-block align-middle mb-0 text-body">{{ $loop->index + 1 }}</span></td>
                                                     <td><span class="d-inline-block align-middle mb-0 text-body">{{ $data->kategori->nama }}</span></td>
-                                                    <td><span class="d-inline-block align-middle mb-0 text-body">{{ $data->pembelian->nama_perusahaan }}</span></td>
                                                     <td><span class="d-inline-block align-middle mb-0 text-body">{{ $data->nama_barang }}</span></td>
                                                     <td><span class="d-inline-block align-middle mb-0 text-body">{{ $data->harga_beli }}</span></td>
                                                     <td><span class="d-inline-block align-middle mb-0 text-body">{{ $data->harga_jual }}</span></td>
