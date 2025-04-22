@@ -29,6 +29,7 @@
                             <label>Nama</label>
                             <input type="text" name="nama" class="form-control" required>
                         </div>
+                        
                         <div class="col-md-6 mb-3">
                             <label>Pemasok</label>
                             <input type="text" name="pemasok" class="form-control" required>
@@ -48,7 +49,7 @@
                         <label>Harga Beli</label>
                         <input type="number" name="harga_beli" class="form-control" required>
                     </div>
-                    <div class="mb-3">
+                    {{-- <div class="mb-3">
                         <label>Faktur</label>
                         <input type="file" name="faktur" class="form-control @error('faktur') is-invalid @enderror">
                         @error('faktur')
@@ -56,7 +57,7 @@
                                 <strong>{{ $message }}</strong>
                             </span>
                         @enderror
-                    </div>
+                    </div> --}}
                     <div class="mb-3">
                         <label for="status" class="form-label">Status</label>
                         <select class="form-select" name="status">

@@ -69,7 +69,7 @@
                                 </div>
 
                                 {{-- Faktur (Upload File) --}}
-                                <div class="mb-3">
+                                {{-- <div class="mb-3">
                                     <label for="faktur">Faktur</label>
                                     <input type="file" name="faktur" class="form-control @error('faktur') is-invalid @enderror">
                                     @error('faktur')
@@ -80,7 +80,7 @@
                                     @if($barangMasuk->faktur)
                                         <p>Faktur Saat Ini: <a href="{{ asset($barangMasuk->faktur) }}" target="_blank">Lihat Faktur</a></p>
                                     @endif
-                                </div>
+                                </div> --}}
 
                                 {{-- Status --}}
                                 <div class="row mb-3">
@@ -103,7 +103,7 @@
                 </div>
             </div>
         </div>
-        
+
         <script>    // Mengatur kode barang berdasarkan kategori yang dipilih
     document.getElementById('kategori').addEventListener('change', function() {
         let selectedOption = this.options[this.selectedIndex];

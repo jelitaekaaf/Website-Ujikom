@@ -86,11 +86,11 @@
                                         @endforeach
                                     </select>
                                 </div>
-                               
+
                                 <div class="mb-3">
                                     <label for="example-palaceholder" class="form-label">Nama Barang</label>
                                     <input type="text" id="example-palaceholder" class="form-control"
-                                        placeholder="Nama Barang" name="nama_barang">
+                                        placeholder="Nama Barang" name="nama ">
                                 </div>
                                 <div class="mb-3">
                                     <label for="example-palaceholder" class="form-label">Harga Beli</label>

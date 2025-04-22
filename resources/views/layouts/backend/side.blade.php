@@ -45,37 +45,12 @@
                             <li><a href="barang" class="tp-link">Barang</a></li>
                             <li><a href="kategori" class="tp-link">Kategori</a></li>
                             <li><a href="catatanstok" class="tp-link">Catatan Stok</a></li>
-                            <li><a href="catatankeuangan" class="tp-link">Catatan Keuangan</a></li>
+                            {{-- <li><a href="catatankeuangan" class="tp-link">Catatan Keuangan</a></li> --}}
                         </ul>
                     </div>
                 </li>
 
-                {{-- <li>
-                    <a href="calendar" class="tp-link">
-                        <i data-feather="calendar"></i>
-                        <span> Calendar </span>
-                    </a>
-                </li> --}}
-
                  <li class="menu-title mt-2">Manajemen Stok</li>
-                 {{-- <li>
-                    <a href="pembelian" class="tp-link">
-                        <i data-feather="slack"></i>
-                        <span> Pembelian </span>
-                    </a>
-                </li>
-                <li>
-                    <a href="transaksi" class="tp-link">
-                        <i data-feather="file-minus"></i>
-                        <span> Transaksi </span>
-                    </a>
-                </li>
-                <li>
-                    <a href="dettransaksi" class="tp-link">
-                        <i data-feather="file-text"></i>
-                        <span> Detail Transaksi </span>
-                    </a>
-                </li> --}}
                 <li>
                     <a href="barang_masuk" class="tp-link">
                         <i data-feather="log-in"></i>
@@ -91,14 +66,15 @@
 
                 <li class="menu-title mt-2">Laporan</li>
                 <li>
-                   <a href="laporan/barang-masuk" class="tp-link">
-                       <i data-feather="clipboard"></i>
-                       <span> Laporan Barang Masuk </span>
+                   <a href="laporan-barang-masuk" class="tp-link">
+                       <i data-feather="file-text"></i>
+                       <span>  Barang Masuk </span>
                    </a>
-                   <a href="laporan/barang-keluar" class="tp-link">
-                       <i data-feather="clipboard"></i>
-                       <span> Laporan Barang Keluar </span>
+                   <a href="laporan-barang-keluar">
+                       <i data-feather="file-text"></i>
+                       <span>  Barang Keluar </span>
                    </a>
+
                </li>
             </ul>
         </div>

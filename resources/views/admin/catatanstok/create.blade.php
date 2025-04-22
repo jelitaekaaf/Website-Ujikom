@@ -25,13 +25,13 @@
                                                 <select name="id_barang" class="form-control">
                                                     <option selected disabled>Pilih Barang</option>
                                                     @foreach ($barang as $item)
-                                                        <option value="{{ $item->id }}">{{ $item->nama_barang }}</option>
+                                                        <option value="{{ $item->id }}">{{ $item->nama }}</option>
                                                     @endforeach
                                                 </select>
 
                                             </div>
                                         </div>
-                                       
+
                                         <div class="row mb-3">
                                             <label class="col-sm-2 col-form-label" for="basic-default-fullname">Jumlah</label>
                                             <div class="col-sm-10">

@@ -15,7 +15,7 @@ class CreateBarangMasuksTable extends Migration
     {
         Schema::create('barang_masuks', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
+            $table->string('nama_barang');
             $table->string('kode_barang')->unique();
             $table->unsignedBigInteger('id_kategori');
             $table->string('pemasok');

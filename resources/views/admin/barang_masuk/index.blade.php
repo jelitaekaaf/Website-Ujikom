@@ -66,6 +66,7 @@
                                         <div class="d-flex align-items-center">
                                             <h5 class="card-title text-black mb-0">Barang Masuk</h5>
                                             <a href="{{route('barang_masuk.create')}}" class="btn btn-primary ms-auto me-2">+ Tambah Data</a>
+
                                             <button onclick="printTable()" class="btn btn-secondary me-2">🖨 Print</button>
                                         </div>
                                     </div>
@@ -87,9 +88,10 @@
                                                     <th scope="col" class="cursor-pointer">Jumlah</th>
                                                     <th scope="col" class="cursor-pointer">Harga Beli</th>
                                                     <th scope="col" class="cursor-pointer">Tanggal Masuk</th>
-                                                    <th scope="col" class="cursor-pointer">Faktur</th>
-                                                    <th scope="col" class="cursor-pointer">Aksi</th>
+                                                    {{-- <th scope="col" class="cursor-pointer">Faktur</th> --}}
                                                     <th scope="col" class="cursor-pointer">Status</th>
+                                                    <th scope="col" class="cursor-pointer">Aksi</th>
+
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -111,33 +113,22 @@
                                                         </td> --}}
 
                                                     <td><span class="d-inline-block align-middle mb-0 text-body">{{ $item->pemasok }}</td>
-                                                    <td><span class="d-inline-block align-middle mb-0 text-body">{{ $item->jumlah }}</td>
-                                                    <td><span class="d-inline-block align-middle mb-0 text-body">{{ $item->harga_beli }}</td>
+                                                    <td><span class="d-inline-block align-middle mb-0 text-body">{{ $item->jumlah }} pcs</td>
+                                                    <td><span class="d-inline-block align-middle mb-0 text-body">Rp. {{ $item->harga_beli }}</td>
                                                     <td><span class="d-inline-block align-middle mb-0 text-body">{{ $item->tanggal_masuk }}</td>
                                                     {{-- <td><span class="d-inline-block align-middle mb-0 text-body">{{ $item->faktur }}</td> --}}
                                                         {{-- <td>
                                                             <img src="{{ asset('/images/faktur/' . $item->faktur) }}" width="100">
                                                           </td> --}}
 
-                                                          <td>
+                                                          {{-- <td>
                                                             @if($item->faktur)
                                                                 <img src="{{ asset(str_replace('storage/', 'storage/', $item->faktur)) }}" width="100">
                                                             @else
                                                                 Tidak ada faktur
                                                             @endif
-                                                        </td>
-                                                        <td>
-                                                            <a href="{{ route('barang_masuk.edit', $item->id) }}" aria-label="anchor" class="btn btn-sm bg-primary-subtle me-1" data-bs-toggle="tooltip" data-bs-original-title="Edit">
-                                                             <i class="mdi mdi-pencil-outline fs-14 text-primary"></i>
-                                                            </a>
-                                                            <form id="form-hapus-{{ $item->id }}" action="{{ route('barang_masuk.destroy', $item->id) }}" method="POST" style="display:inline;">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <button onclick="hapusData({{ $item->id }}, event)" type="button" class="btn btn-sm bg-danger-subtle me-1" data-bs-toggle="tooltip" data-bs-original-title="Hapus">
-                                                                    <i class="mdi mdi-delete fs-14 text-danger"></i>
-                                                                </button>
-                                                            </form>
-                                                        </td>
+                                                        </td> --}}
+
                                                         <td>
                                                             @if ($item->status == 'pending')
                                                             <form action="{{ route('barang_masuk.approve', $item->id) }}" method="POST" style="display:inline">
@@ -171,6 +162,18 @@
                                                             {{ ucfirst($item->status) }}
                                                         </span>
                                                         @endif
+                                                        </td>
+                                                        <td>
+                                                            <a href="{{ route('barang_masuk.edit', $item->id) }}" aria-label="anchor" class="btn btn-sm bg-primary-subtle me-1" data-bs-toggle="tooltip" data-bs-original-title="Edit">
+                                                             <i class="mdi mdi-pencil-outline fs-14 text-primary"></i>
+                                                            </a>
+                                                            <form id="form-hapus-{{ $item->id }}" action="{{ route('barang_masuk.destroy', $item->id) }}" method="POST" style="display:inline;">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button onclick="hapusData({{ $item->id }}, event)" type="button" class="btn btn-sm bg-danger-subtle me-1" data-bs-toggle="tooltip" data-bs-original-title="Hapus">
+                                                                    <i class="mdi mdi-delete fs-14 text-danger"></i>
+                                                                </button>
+                                                            </form>
                                                         </td>
                                                     </tr>
                                                     @endforeach
@@ -304,7 +307,7 @@
 
                 </script>
 
-                
+
 
 
     </body>

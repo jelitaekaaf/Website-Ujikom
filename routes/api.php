@@ -50,7 +50,10 @@ Route::prefix('kategori')->group(function () {
     Route::get('/{id}', [KategoriController::class, 'show']);
     Route::put('/{id}', [KategoriController::class, 'update']);
     Route::delete('/{id}', [KategoriController::class, 'destroy']);
+    Route::put('/kategori/{id}', [KategoriController::class, 'update']);
+
 });
+
 
 //STOK
 Route::prefix('stok')->group(function () {

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\BarangMasuk;
-use App\Models\Barang2;
+use App\Models\Barang;
 use App\Models\Kategori;
 use Illuminate\Http\Request;
 use Alert;
@@ -34,52 +34,64 @@ class BarangMasukController extends Controller
     }
 
     public function store(Request $request)
-{
-    $request->validate([
-        'nama' => 'required',
-        'id_kategori' => 'required|exists:kategoris,id',
-        'pemasok' => 'required',
-        'jumlah' => 'required|integer',
-        'harga_beli' => 'required|numeric',
-        'tanggal_masuk' => 'required|date',
-        'faktur' => 'nullable|file|mimes:jpg,png,pdf|max:2048',
-        'status' => 'required'
-    ]);
+    {
+        $request->validate([
+            'nama' => 'required',
+            'id_kategori' => 'required|exists:kategoris,id',
+            'pemasok' => 'required',
+            'jumlah' => 'required|integer',
+            'harga_beli' => 'required|numeric',
+            'tanggal_masuk' => 'required|date',
+            'faktur' => 'nullable|file|mimes:jpg,png,pdf|max:2048',
+            'status' => 'required'
+        ]);
 
-    // Ambil kategori
-    $kategori = Kategori::findOrFail($request->id_kategori);
-    $kodeKategori = strtoupper(substr($kategori->nama, 0, 3)); // Ambil 3 huruf pertama
+        // Ambil kategori
+        $kategori = Kategori::findOrFail($request->id_kategori);
+        $kodeKategori = strtoupper(substr($kategori->nama, 0, 3));
+        $jumlahBarang = BarangMasuk::where('id_kategori', $request->id_kategori)->count() + 1;
+        $kodeBarang = $kodeKategori . str_pad($jumlahBarang, 4, '0', STR_PAD_LEFT);
 
-    // Hitung jumlah barang dengan kategori yang sama
-    $jumlahBarang = BarangMasuk::where('id_kategori', $request->id_kategori)->count() + 1;
+        // Cek apakah barang sudah ada di tabel `barangs`
+        $barang = Barang::where('nama_barang', $request->nama)->first();
 
-    // Format kode barang
-    $kodeBarang = $kodeKategori . str_pad($jumlahBarang, 4, '0', STR_PAD_LEFT);
+        if ($barang) {
+            // Barang sudah ada, update stok
+            $barang->stok += $request->jumlah;
+            $barang->save();
+        } else {
+            // Barang belum ada, tambahkan baru
+            $barang = Barang::create([
+                'id_kategori' => $request->id_kategori,
+                'kode_barang' => $kodeBarang,
+                'nama_barang' => $request->nama,
+                'harga_beli' => $request->harga_beli,
+                'stok' => $request->jumlah,
+                'harga_jual' => 0, // default, bisa diedit nanti
+            ]);
+        }
 
-    $barangMasuk = new BarangMasuk();
-    $barangMasuk->nama = $request->nama;
-    $barangMasuk->kode_barang = $kodeBarang; // Kode otomatis
-    $barangMasuk->id_kategori = $request->id_kategori;
-    $barangMasuk->pemasok = $request->pemasok;
-    $barangMasuk->jumlah = $request->jumlah;
-    $barangMasuk->harga_beli = $request->harga_beli;
-    $barangMasuk->tanggal_masuk = $request->tanggal_masuk;
-    $barangMasuk->status = $request->status;
+        // Simpan data barang masuk
+        $barangMasuk = new BarangMasuk();
+        $barangMasuk->nama = $request->nama;
+        $barangMasuk->kode_barang = $kodeBarang;
+        $barangMasuk->id_kategori = $request->id_kategori;
+        $barangMasuk->pemasok = $request->pemasok;
+        $barangMasuk->jumlah = $request->jumlah;
+        $barangMasuk->harga_beli = $request->harga_beli;
+        $barangMasuk->tanggal_masuk = $request->tanggal_masuk;
+        $barangMasuk->status = $request->status;
+        // $barangMasuk->id_barang = $barang->id; // simpan relasi barang jika sudah buat field ini
 
-    if ($request->hasFile('faktur')) {
-        $path = $request->file('faktur')->store('faktur', 'public');
-        $barangMasuk->faktur = 'storage/' . $path;
+        if ($request->hasFile('faktur')) {
+            $path = $request->file('faktur')->store('faktur', 'public');
+            $barangMasuk->faktur = 'storage/' . $path;
+        }
+
+        $barangMasuk->save();
+
+        return redirect()->route('barang_masuk.index')->with('success', 'Barang masuk berhasil disimpan dan stok diperbarui.');
     }
-
-
-    $barangMasuk->save();
-
-    // return redirect()->route('barang_masuk.index');
-    return redirect()->route('barang_masuk.index')->with('success', 'Data berhasil ditambahkan!');
-
-}
-
-
 
     public function edit($id)
     {

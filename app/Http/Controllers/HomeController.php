@@ -41,6 +41,7 @@ class HomeController extends Controller
         // Tambahkan juga data lain jika perlu
         return view('home', compact('jumlahKategori','jumlahBarangMasuk','jumlahBarangKeluar','stokTipis'));
     }
+    
     public function bKeluar()
     {
         return view('bKeluar');
@@ -52,6 +53,10 @@ class HomeController extends Controller
     public function lapor()
     {
         return view('laporan');
+    }
+    public function kalendar()
+    {
+        return view('calendar');
     }
 
 

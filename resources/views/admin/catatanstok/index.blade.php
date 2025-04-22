@@ -2,6 +2,18 @@
 
 @section('styles')
     <link href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+       <!-- App favicon -->
+       <link rel="shortcut icon" href="assets/images/favicon.ico">
+
+       <link href="assets/libs/simple-datatables/style.css" rel="stylesheet" type="text/css" />
+
+       <!-- App css -->
+       <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" id="app-style" />
+
+       <!-- Icons -->
+       <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+
+       <meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
 
 @section('content')
@@ -67,7 +79,6 @@
                                             <tr>
                                                 <th>No</th>
                                                 <th>Nama Barang</th>
-                                                <th>Jenis</th>
                                                 <th>Jumlah</th>
                                                 <th>Tanggal</th>
                                                 <th>Keterangan</th>
@@ -78,8 +89,7 @@
                                             @foreach ($catatanStok as $data)
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
-                                                    <td>{{ $data->barang->pembelian->nama ?? '-' }}</td>
-                                                    <td>{{ $data->jenis }}</td>
+                                                    <td>{{ $data->barang->nama }}</td>
                                                     <td>{{ $data->jumlah }}</td>
                                                     <td>{{ \Carbon\Carbon::parse($data->tanggal)->format('d F Y') }}</td>
                                                     <td>{{ $data->keterangan }}</td>
@@ -120,6 +130,7 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+
 
     <script>
         $(document).ready(function() {

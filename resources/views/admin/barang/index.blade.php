@@ -69,10 +69,10 @@
                                             <tr>
                                                     <td><span class="d-inline-block align-middle mb-0 text-body">{{ $loop->index + 1 }}</span></td>
                                                     <td><span class="d-inline-block align-middle mb-0 text-body">{{ $data->kategori->nama }}</span></td>
-                                                    <td><span class="d-inline-block align-middle mb-0 text-body">{{ $data->nama_barang }}</span></td>
-                                                    <td><span class="d-inline-block align-middle mb-0 text-body">{{ $data->harga_beli }}</span></td>
-                                                    <td><span class="d-inline-block align-middle mb-0 text-body">{{ $data->harga_jual }}</span></td>
-                                                    <td><span class="d-inline-block align-middle mb-0 text-body">{{ $data->stok }}</span></td>
+                                                    <td><span class="d-inline-block align-middle mb-0 text-body">{{ $data->nama }}</span></td>
+                                                    <td><span class="d-inline-block align-middle mb-0 text-body">Rp. {{ $data->harga_beli }}</span></td>
+                                                    <td><span class="d-inline-block align-middle mb-0 text-body">Rp. {{ $data->harga_jual }}</span></td>
+                                                    <td><span class="d-inline-block align-middle mb-0 text-body">{{ $data->stok  }} pcs</span></td>
                                                     <td>
                                                         <a href="{{ route('barang.edit', $data->id) }}" aria-label="anchor" class="btn btn-sm bg-primary-subtle me-1" data-bs-toggle="tooltip" data-bs-original-title="Edit">
                                                          <i class="mdi mdi-pencil-outline fs-14 text-primary"></i>

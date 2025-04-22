@@ -14,9 +14,9 @@ class BarangMasuk extends Model
 
     public $timestamp = true;
 
-    public function barang2()
+    public function barang()
     {
-        return $this->hasOne(Barang::class, 'kode_barang');
+        return $this->hasOne(Barang::class, 'kode_barang',);
     }
     public function kategori()
     {

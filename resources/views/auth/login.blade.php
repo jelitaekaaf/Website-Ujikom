@@ -1,159 +1,177 @@
 <!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - Inventera</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
 
-<!-- =========================================================
-* Sneat - Bootstrap 5 HTML Admin Template - Pro | v1.0.0
-==============================================================
+    body {
+      background-color: #f5f7fa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
 
-* Product Page: https://themeselection.com/products/sneat-bootstrap-html-admin-template/
-* Created by: ThemeSelection
-* License: You must have a valid license purchased in order to legally use the theme for your project.
-* Copyright ThemeSelection (https://themeselection.com)
+    .container {
+      display: flex;
+      background-color: #fff;
+      border-radius: 20px;
+      box-shadow: 0 0 40px rgba(0,0,0,0.1);
+      overflow: hidden;
+      max-width: 1000px;
+      width: 100%;
+    }
 
-=========================================================
- -->
-<!-- beautify ignore:start -->
-<html
-  lang="en"
-  class="light-style customizer-hide"
-  dir="ltr"
-  data-theme="theme-default"
-  data-assets-path="admin/assets/"
-  data-template="vertical-menu-template-free"
->
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
-    />
+    .left {
+      width: 50%;
+      background: #e0f7ff;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
 
-    <title>Login</title>
+    .left img {
+      max-width: 100%;
+      height: auto;
+      margin-bottom: 30px;
+    }
 
-    <meta name="description" content="" />
+    .left h3 {
+      font-size: 20px;
+      font-weight: 500;
+      color: #333;
+    }
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="admin/assets/img/favicon/favicon.ico" />
+    .right {
+      width: 50%;
+      padding: 40px 50px;
+    }
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
-      rel="stylesheet"
-    />
+    .right h2 {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
 
-    <!-- Icons. Uncomment required icon fonts -->
-    <link rel="stylesheet" href="admin/assets/vendor/fonts/boxicons.css" />
+    .social-login {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
 
-    <!-- Core CSS -->
-    <link rel="stylesheet" href="admin/assets/vendor/css/core.css" class="template-customizer-core-css" />
-    <link rel="stylesheet" href="admin/assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
-    <link rel="stylesheet" href="admin/assets/css/demo.css" />
+    .social-btn {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 14px;
+      background-color: #fff;
+      transition: all 0.3s ease;
+    }
 
-    <!-- Vendors CSS -->
-    <link rel="stylesheet" href="admin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+    .social-btn:hover {
+      background-color: #f0f0f0;
+    }
 
-    <!-- Page CSS -->
-    <!-- Page -->
-    <link rel="stylesheet" href="admin/assets/vendor/css/pages/page-auth.css" />
-    <!-- Helpers -->
-    <script src="admin/assets/vendor/js/helpers.js"></script>
+    .divider {
+      text-align: center;
+      color: #aaa;
+      font-size: 13px;
+      margin: 20px 0;
+    }
 
-    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
-    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
-    <script src="admin/assets/js/config.js"></script>
-  </head>
+    .form-control {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      font-size: 14px;
+    }
 
-  <body>
-    <!-- Content -->
+    .btn-submit {
+      width: 100%;
+      padding: 14px;
+      background-color: #45c6cf;
+      color: #fff;
+      font-weight: 600;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
 
-    <div class="container-xxl">
-      <div class="authentication-wrapper authentication-basic container-p-y">
-        <div class="authentication-inner">
-          <!-- Register -->
-          <div class="card">
-            <div class="card-body">
-              <!-- Logo -->
-             <div class="app-brand justify-content-center">
-                <a href="index.html" class="app-brand-link gap-2">
+    .btn-submit:hover {
+      background-color: #378454;
+    }
 
-                  <span class="app-brand-text demo text-body fw-bolder">INVENTERA</span>
-                </a>
-              </div>
-              <!-- /Logo -->
-              <h4 class="mb-2">Selamat Datang di Admin! 👋</h4>
-                <form class="row g-3" action="{{route('login')}}" method="post">
-                    @csrf
-                  <div class="col-12">
-                    <label for="inputEmailAddress" class="form-label">Email</label>
-                    <input type="email" name="email"
-                     class="form-control @error('email') is-invalid @enderror"
-                     id="inputEmailAddress" placeholder="admin@example.com">
-                     @error('email')
-                     <span class="invalid-feedback" role="alert">
-                      <strong>{{ $message }}</strong>
-                     </span>
-                     @enderror
-                  </div>
-                <div class="mb-3 form-password-toggle">
-                  <div class="d-flex justify-content-between">
-                    <label class="form-label" for="password">Password</label>
-                    <a href="auth-forgot-password-basic.html">
-                      <small>Lupa Password?</small>
-                    </a>
-                  </div>
-                  <div class="input-group input-group-merge">
-                    <input
-                      type="password"
-                      id="password"
-                      class="form-control"
-                      name="password"
-                      placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                      aria-describedby="password"
-                    />
-                    <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
-                  </div>
-                </div>
-              <div class="col-12">
-                <div class="d-grid">
-                  <button type="submit" class="btn btn-primary d-grid w-100">Login</button>
-                </div>
-              </div>
-            </form>
-              <p class="text-center">
-                <span>Belum Punya Akun?</span>
-                <a href="register">
-                  <span>Daftar</span>
-                </a>
-              </p>
-            </div>
-          </div>
-          <!-- /Register -->
-        </div>
-      </div>
+    .footer-text {
+      margin-top: 20px;
+      font-size: 14px;
+      text-align: center;
+      color: #555;
+    }
+
+    .footer-text a {
+      color: #378454;
+      text-decoration: none;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+
+      .left, .right {
+        width: 100%;
+        padding: 30px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Left Side -->
+    <div class="left">
+      <img src="{{ asset('assets/images/bglog.png') }}" alt="Ilustrasi Login" />
+
     </div>
 
-    <!-- / Content -->
+    <!-- Right Side (Form) -->
+    <div class="right">
+      <h2>Create Account</h2>
 
 
-    <!-- Core JS -->
-    <!-- build:js assets/vendor/js/core.js -->
-    <script src="admin/assets/vendor/libs/jquery/jquery.js"></script>
-    <script src="admin/assets/vendor/libs/popper/popper.js"></script>
-    <script src="admin/assets/vendor/js/bootstrap.js"></script>
-    <script src="admin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+      <form method="POST" action="{{ route('login') }}">
+        @csrf
 
-    <script src="admin/assets/vendor/js/menu.js"></script>
-    <!-- endbuild -->
+        <input type="text" name="name" class="form-control" placeholder="Full Name" required />
+        <input type="email" name="email" class="form-control" placeholder="Email Address" required />
+        <input type="password" name="password" class="form-control" placeholder="Password" required />
 
-    <!-- Vendors JS -->
+        <button type="submit" class="btn-submit">Create Account</button>
 
-    <!-- Main JS -->
-    <script src="admin/assets/js/main.js"></script>
-
-    <!-- Page JS -->
-
-    <!-- Place this tag in your head or just before your close body tag. -->
-    <script async defer src="https://buttons.github.io/buttons.js"></script>
-  </body>
+        <div class="footer-text">
+          Already have an account? <a href="{{ route('login') }}">Login</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
 </html>

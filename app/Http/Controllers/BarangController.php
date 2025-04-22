@@ -37,7 +37,7 @@ class BarangController extends Controller
     {
         $request->validate([
             'id_kategori' => 'required',
-            'nama_barang'=> 'required',
+            'nama'=> 'required',
             'harga_beli' => 'required',
             'harga_jual' => 'required',
             'stok' => 'required',
@@ -46,7 +46,7 @@ class BarangController extends Controller
 
         $barang = new Barang();
         $barang->id_kategori = $request->id_kategori;
-        $barang->nama_barang = $request->nama_barang;
+        $barang->nama = $request->nama;
         $barang->harga_beli = $request->harga_beli;
         $barang->harga_jual = $request->harga_jual;
         $barang->stok = $request->stok;
@@ -83,7 +83,7 @@ class BarangController extends Controller
     {
         $request->validate([
             'id_kategori' => 'required',
-            'nama_barang' => 'required',
+            'nama' => 'required',
             'harga_beli' => 'required',
             'harga_jual' => 'required',
             'stok' => 'required',
@@ -92,7 +92,7 @@ class BarangController extends Controller
 
         $barang = Barang::findOrFail($id);
         $barang->id_kategori = $request->id_kategori;
-        $barang->nama_barang = $request->nama_barang;
+        $barang->nama = $request->nama;
         $barang->harga_beli = $request->harga_beli;
         $barang->harga_jual = $request->harga_jual;
         $barang->stok = $request->stok;

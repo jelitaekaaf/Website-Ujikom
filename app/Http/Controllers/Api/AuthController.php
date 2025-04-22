@@ -46,7 +46,7 @@ class AuthController extends Controller
             ], 401);
         }
 
-        $user = Auth::user(); // Ambil user yang sedang login
+        $user = Auth::user(); // Ambil user yang sedang login   
 
         $token = $user->createToken('auth_token')->plainTextToken;
 

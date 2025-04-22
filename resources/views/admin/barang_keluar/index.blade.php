@@ -88,7 +88,7 @@
                                                         <td><span class="d-inline-block align-middle mb-0 text-body">{{ $item->kode_barang }}</td>
                                                         <td><span class="d-inline-block align-middle mb-0 text-body">{{ $item->nama }}</td>
                                                         <td><span class="d-inline-block align-middle mb-0 text-body">{{ $item->tanggal_keluar }}</td>
-                                                        <td><span class="d-inline-block align-middle mb-0 text-body">{{ $item->jumlah }}</td>
+                                                        <td><span class="d-inline-block align-middle mb-0 text-body">{{ $item->jumlah }} pcs</td>
                                                         <td><span class="d-inline-block align-middle mb-0 text-body">{{ $item->alasan_pengeluaran }}</td>
                                                         <td><span class="d-inline-block align-middle mb-0 text-body">{{ $item->tujuan_pemakaian }}</td>
 
